@@ -104,7 +104,18 @@ function RegisterPlayerForm() {
 					address: CONTRACTS.FFPlayer as `0x${string}`,
 					abi: FFPlayerAbi,
 					functionName: "registerPlayerFF",
-					args: [nickname, Number(primaryPosition), Number(level), isMinor, guardian as `0x${string}`, Number(visibility)]
+					// Defaults: fullName = nickname; secondary/tertiary = 0
+					args: [
+						nickname,
+						nickname,
+						Number(primaryPosition),
+						0,
+						0,
+						Number(level),
+						isMinor,
+						guardian as `0x${string}`,
+						Number(visibility)
+					]
 				});
 			}}
 		>
