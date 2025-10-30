@@ -48,7 +48,7 @@ const SECTIONS: Section[] = [
 		]
 	},
 	{
-		title: "Lecturas (Views)",
+		title: "Consultas",
 		items: [
 			{ label: "Obtener liga", href: "/lecturas/liga" },
 			{ label: "Obtener club", href: "/lecturas/club" },
