@@ -43,10 +43,10 @@ export default function VerificarRolPage() {
 		args: (roleBytes && (account || my) ? [roleBytes as `0x${string}`, (account || my)!] : undefined) as | readonly [`0x${string}`, `0x${string}`] | undefined
 	});
 
-	return (
-		<main className="space-y-4">
+return (
+	<main className="space-y-4 content-narrow">
 			<h1 className="text-2xl font-bold">Verificar rol</h1>
-			<div className="max-w-xl space-y-3 rounded-2xl bg-white p-5 shadow">
+		<div className="card form">
 				<div>
 					<label className="block text-sm font-medium">Cuenta</label>
 					<input className="input" placeholder="0x... (vacío usa mi cuenta)" value={account} onChange={(e) => setAccount(e.target.value as `0x${string}`)} />

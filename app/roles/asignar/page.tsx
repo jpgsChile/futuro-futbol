@@ -48,8 +48,8 @@ export default function AsignarRolPage() {
 	const { writeContract, data: hash, isPending, error } = useWriteContract();
 	const { isLoading, isSuccess } = useWaitForTransactionReceipt({ hash });
 
-	return (
-		<main className="space-y-4">
+return (
+	<main className="space-y-4 content-narrow">
 			<h1 className="text-2xl font-bold">Asignar rol</h1>
 			<p className="text-sm" style={{ color: "#aab1c5" }}>
 				Sólo un administrador puede asignar roles. Tu estado: {isAdmin ? "Admin" : "No admin"}.
@@ -60,7 +60,7 @@ export default function AsignarRolPage() {
 					if (!roleBytes || !target) return;
 					writeContract({ address: CONTRACTS.FFRoles as `0x${string}`, abi: FFRolesAbi, functionName: "assignRole", args: [roleBytes, target] });
 				}}
-				className="max-w-xl space-y-3 rounded-2xl bg-white p-5 shadow"
+			className="card form"
 			>
 				<div>
 					<label className="block text-sm font-medium">Rol</label>
@@ -76,9 +76,11 @@ export default function AsignarRolPage() {
 					<label className="block text-sm font-medium">Cuenta destino</label>
 					<input className="input" placeholder="0x..." value={target} onChange={(e) => setTarget(e.target.value as `0x${string}`)} />
 				</div>
+			<div className="form-actions">
 				<button className="btn" disabled={!roleBytes || !target || isPending || isLoading}>
 					{isPending ? "Firmando…" : isLoading ? "Enviando…" : isSuccess ? "Asignado" : "Asignar rol"}
 				</button>
+			</div>
 				{error ? <p className="text-red-500 text-xs">{String(error.message || error)}</p> : null}
 			</form>
 		</main>

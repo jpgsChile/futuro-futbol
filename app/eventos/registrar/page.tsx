@@ -18,17 +18,17 @@ export default function Page() {
 	const [eventType, setEventType] = useState("3");
 	const { writeContract, data: hash, isPending, error } = useWriteContract();
 	const { isLoading, isSuccess } = useWaitForTransactionReceipt({ hash });
-	return (
-		<main className="space-y-4">
+return (
+	<main className="space-y-4 content-narrow">
 			<h1 className="text-2xl font-bold">Registrar evento</h1>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
 					writeContract({ address: CONTRACTS.FFEvent as `0x${string}`, abi: BasicAbi, functionName: "registerEvent", args: [BigInt(gameId || "0"), BigInt(clubId || "0"), BigInt(playerId || "0"), Number(eventType)] });
 				}}
-				className="max-w-xl space-y-3 rounded-2xl bg-white p-5 shadow"
+			className="card form"
 			>
-				<div className="row">
+			<div className="form-row">
 					<input className="input" placeholder="Game ID" value={gameId} onChange={(e) => setGameId(e.target.value)} />
 					<input className="input" placeholder="Club ID" value={clubId} onChange={(e) => setClubId(e.target.value)} />
 					<input className="input" placeholder="Player ID (0 si ninguno)" value={playerId} onChange={(e) => setPlayerId(e.target.value)} />
@@ -46,8 +46,10 @@ export default function Page() {
 						<option value="8">Substitution</option>
 					</select>
 				</div>
+			<div className="form-actions">
 				<button className="btn" disabled={isPending || isLoading}>{isPending ? "Firmando…" : isLoading ? "Enviando…" : isSuccess ? "Registrado" : "Registrar"}</button>
-				{hash ? <p className="text-xs">Tx: <a className="button" href={`https://testnet.snowtrace.io/tx/${hash}`} target="_blank">ver</a></p> : null}
+				{hash ? <a className="btn-secondary" href={`https://testnet.snowtrace.io/tx/${hash}`} target="_blank">Ver tx</a> : null}
+			</div>
 				{error ? <p className="text-red-500 text-xs">{String(error.message || error)}</p> : null}
 			</form>
 		</main>

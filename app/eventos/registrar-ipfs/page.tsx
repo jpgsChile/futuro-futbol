@@ -31,7 +31,7 @@ export default function Page() {
 	}
 
 	return (
-		<main className="space-y-4">
+		<main className="space-y-4 content-narrow">
 			<h1 className="text-2xl font-bold">Registrar evento con IPFS</h1>
 			<form
 				onSubmit={async (e) => {
@@ -39,9 +39,9 @@ export default function Page() {
 					const uri = await ensureCid();
 					writeContract({ address: CONTRACTS.FFEvent as `0x${string}`, abi: FFEventAbi, functionName: "registerEventFF", args: [BigInt(gameId || "0"), BigInt(clubId || "0"), BigInt(playerId || "0"), Number(eventType), uri] });
 				}}
-				className="max-w-xl space-y-3 rounded-2xl bg-white p-5 shadow"
+				className="card form"
 			>
-				<div className="row">
+				<div className="form-row">
 					<input className="input" placeholder="Game ID" value={gameId} onChange={(e) => setGameId(e.target.value)} />
 					<input className="input" placeholder="Club ID" value={clubId} onChange={(e) => setClubId(e.target.value)} />
 					<input className="input" placeholder="Player ID (0 si ninguno)" value={playerId} onChange={(e) => setPlayerId(e.target.value)} />
@@ -67,8 +67,10 @@ export default function Page() {
 					<label className="block text-sm font-medium">CID/IPFS URI (opcional)</label>
 					<input className="input" placeholder="ipfs://..." value={cid} onChange={(e) => setCid(e.target.value)} />
 				</div>
-				<button className="btn" disabled={isPending || isLoading || uploading}>{uploading ? "Subiendo…" : isPending ? "Firmando…" : isLoading ? "Enviando…" : isSuccess ? "Registrado" : "Registrar"}</button>
-				{hash ? <p className="text-xs">Tx: <a className="button" href={`https://testnet.snowtrace.io/tx/${hash}`} target="_blank">ver</a></p> : null}
+				<div className="form-actions">
+					<button className="btn" disabled={isPending || isLoading || uploading}>{uploading ? "Subiendo…" : isPending ? "Firmando…" : isLoading ? "Enviando…" : isSuccess ? "Registrado" : "Registrar"}</button>
+					{hash ? <a className="btn-secondary" href={`https://testnet.snowtrace.io/tx/${hash}`} target="_blank">Ver tx</a> : null}
+				</div>
 				{error ? <p className="text-red-500 text-xs">{String(error.message || error)}</p> : null}
 			</form>
 		</main>

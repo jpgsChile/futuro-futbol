@@ -29,8 +29,8 @@ export default function Page() {
 		}
 	}
 
-	return (
-		<main className="space-y-4">
+return (
+	<main className="space-y-4 content-narrow">
 			<h1 className="text-2xl font-bold">Crear partido con IPFS</h1>
 			<form
 				onSubmit={async (e) => {
@@ -38,9 +38,9 @@ export default function Page() {
 					const uri = await ensureCid();
 					writeContract({ address: CONTRACTS.FFGame as `0x${string}`, abi: FFGameAbi, functionName: "createGameFF", args: [BigInt(clubAId || "0"), BigInt(clubBId || "0"), BigInt(scheduledAt || "0"), uri] });
 				}}
-				className="max-w-xl space-y-3 rounded-2xl bg-white p-5 shadow"
+			className="card form"
 			>
-				<div className="row">
+			<div className="form-row">
 					<div style={{ flex: 1 }}>
 						<label className="block text-sm font-medium">Club A ID</label>
 						<input className="input" value={clubAId} onChange={(e) => setClubA(e.target.value)} />
@@ -62,8 +62,10 @@ export default function Page() {
 					<label className="block text-sm font-medium">CID/IPFS URI (opcional)</label>
 					<input className="input" placeholder="ipfs://..." value={cid} onChange={(e) => setCid(e.target.value)} />
 				</div>
+			<div className="form-actions">
 				<button className="btn" disabled={isPending || isLoading || uploading}>{uploading ? "Subiendo…" : isPending ? "Firmando…" : isLoading ? "Enviando…" : isSuccess ? "Creado" : "Crear"}</button>
-				{hash ? <p className="text-xs">Tx: <a className="button" href={`https://testnet.snowtrace.io/tx/${hash}`} target="_blank">ver</a></p> : null}
+				{hash ? <a className="btn-secondary" href={`https://testnet.snowtrace.io/tx/${hash}`} target="_blank">Ver tx</a> : null}
+			</div>
 				{error ? <p className="text-red-500 text-xs">{String(error.message || error)}</p> : null}
 			</form>
 		</main>
