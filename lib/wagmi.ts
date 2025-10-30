@@ -16,5 +16,5 @@ export const wagmiConfig = createConfig({
     ...(projectId ? [walletConnect({ projectId, showQrModal: true })] : [])
   ],
   ssr: true,
-  autoConnect: true
+  multiInjectedProviderDiscovery: true
 });
