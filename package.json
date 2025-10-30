@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "compile": "hardhat compile",
-    "deploy:fuji": "hardhat run --network fuji scripts/deploy.ts"
+    "deploy:fuji": "hardhat run --network fuji scripts/deploy.ts",
+    "vercel-build": "next build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -37,5 +38,9 @@
     "hardhat": "^2.22.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
+  }
+  ,
+  "engines": {
+    "node": ">=18"
   }
 }
