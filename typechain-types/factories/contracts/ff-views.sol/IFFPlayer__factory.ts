@@ -33,12 +33,27 @@ const _abi = [
           },
           {
             internalType: "string",
+            name: "fullName",
+            type: "string",
+          },
+          {
+            internalType: "string",
             name: "nickname",
             type: "string",
           },
           {
             internalType: "uint8",
             name: "primaryPosition",
+            type: "uint8",
+          },
+          {
+            internalType: "uint8",
+            name: "secondaryPosition",
+            type: "uint8",
+          },
+          {
+            internalType: "uint8",
+            name: "tertiaryPosition",
             type: "uint8",
           },
           {

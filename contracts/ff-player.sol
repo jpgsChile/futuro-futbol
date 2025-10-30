@@ -9,8 +9,11 @@ contract FFPlayer {
 	struct Player {
 		uint256 id;
 		address account;
+		string fullName;
 		string nickname;
 		uint8 primaryPosition; // 0-10 por ejemplo
+		uint8 secondaryPosition; // opcional
+		uint8 tertiaryPosition; // opcional
 		uint8 level; // 1-10
 		bool isMinor;
 		address guardian; // requerido si isMinor
@@ -23,7 +26,7 @@ contract FFPlayer {
 	mapping(uint256 => Player) private players;
 	mapping(address => uint256) public accountToPlayerId;
 
-	event PlayerRegistered(uint256 indexed id, address indexed account, string nickname, bool isMinor);
+	event PlayerRegistered(uint256 indexed id, address indexed account, string fullName, string nickname, bool isMinor);
 	event PlayerJoinedClub(uint256 indexed playerId, uint256 indexed clubId, address indexed executor);
 
 	constructor(address rolesAddress) {
@@ -31,8 +34,11 @@ contract FFPlayer {
 	}
 
 	function registerPlayerFF(
+		string calldata fullName,
 		string calldata nickname,
 		uint8 primaryPosition,
+		uint8 secondaryPosition,
+		uint8 tertiaryPosition,
 		uint8 level,
 		bool isMinor,
 		address guardian,
@@ -47,8 +53,11 @@ contract FFPlayer {
 		players[id] = Player({
 			id: id,
 			account: msg.sender,
+			fullName: fullName,
 			nickname: nickname,
 			primaryPosition: primaryPosition,
+			secondaryPosition: secondaryPosition,
+			tertiaryPosition: tertiaryPosition,
 			level: level,
 			isMinor: isMinor,
 			guardian: guardian,
@@ -56,7 +65,7 @@ contract FFPlayer {
 			clubId: 0
 		});
 		accountToPlayerId[msg.sender] = id;
-		emit PlayerRegistered(id, msg.sender, nickname, isMinor);
+		emit PlayerRegistered(id, msg.sender, fullName, nickname, isMinor);
 	}
 
 	function playerJoinClub(uint256 playerId, uint256 clubId) external {

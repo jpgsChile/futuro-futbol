@@ -37,16 +37,16 @@ return (
 					<input className="input" placeholder="Player ID" value={playerId} onChange={(e) => setPlayerId(e.target.value)} />
 				</div>
 			<div className="form-row">
-					<select className="select" value={eventType} onChange={(e) => setEventType(e.target.value)}>
-						<option value="1">Start</option>
-						<option value="2">End</option>
-						<option value="3">Goal</option>
-						<option value="4">Foul</option>
-						<option value="5">Offside</option>
-						<option value="6">YellowCard</option>
-						<option value="7">RedCard</option>
-						<option value="8">Substitution</option>
-					</select>
+				<select className="select" value={eventType} onChange={(e) => setEventType(e.target.value)}>
+					<option value="1">Inicio</option>
+					<option value="2">Término</option>
+					<option value="3">Gol</option>
+					<option value="4">Falta</option>
+					<option value="5">Fuera de juego</option>
+					<option value="6">Tarjeta amarilla</option>
+					<option value="7">Tarjeta roja</option>
+					<option value="8">Cambio</option>
+				</select>
 					<input className="input" placeholder="Δ reputación (int)" value={delta} onChange={(e) => setDelta(e.target.value)} />
 				</div>
 				<div>

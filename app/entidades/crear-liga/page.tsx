@@ -31,13 +31,13 @@ export default function CrearLigaPage() {
 	};
 
 	return (
-		<main className="space-y-4">
+		<main className="space-y-4 content-narrow">
 			<h1 className="text-2xl font-bold">Crear nueva liga</h1>
 			<p className="text-sm text-slate-600">
 				Ingresa los datos de la liga. Debes tener el rol <code>LEAGUE_ROLE</code>.
 			</p>
 
-			<form onSubmit={handleSubmit(onSubmit)} className="max-w-xl space-y-3 rounded-2xl bg-white p-5 shadow">
+			<form onSubmit={handleSubmit(onSubmit)} className="card form">
 				<div>
 					<label className="block text-sm font-medium">Nombre</label>
 					<input className="input" placeholder="Liga ADBChile" {...register("name")} />
@@ -65,9 +65,11 @@ export default function CrearLigaPage() {
 					</select>
 					{formState.errors.category ? <p className="text-red-500 text-xs">{formState.errors.category.message}</p> : null}
 				</div>
-				<button type="submit" className="btn" disabled={isPending || isLoading}>
+				<div className="form-actions">
+					<button type="submit" className="btn" disabled={isPending || isLoading}>
 					{isPending ? "Firmando…" : isLoading ? "Enviando…" : isSuccess ? "Creada" : "Crear liga"}
-				</button>
+					</button>
+				</div>
 				{error ? <p className="text-red-500 text-xs">{String(error.message || error)}</p> : null}
 			</form>
 		</main>

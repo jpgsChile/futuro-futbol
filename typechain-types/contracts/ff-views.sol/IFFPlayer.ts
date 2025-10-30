@@ -25,8 +25,11 @@ export declare namespace IFFPlayer {
   export type PlayerStruct = {
     id: BigNumberish;
     account: AddressLike;
+    fullName: string;
     nickname: string;
     primaryPosition: BigNumberish;
+    secondaryPosition: BigNumberish;
+    tertiaryPosition: BigNumberish;
     level: BigNumberish;
     isMinor: boolean;
     guardian: AddressLike;
@@ -37,8 +40,11 @@ export declare namespace IFFPlayer {
   export type PlayerStructOutput = [
     id: bigint,
     account: string,
+    fullName: string,
     nickname: string,
     primaryPosition: bigint,
+    secondaryPosition: bigint,
+    tertiaryPosition: bigint,
     level: bigint,
     isMinor: boolean,
     guardian: string,
@@ -47,8 +53,11 @@ export declare namespace IFFPlayer {
   ] & {
     id: bigint;
     account: string;
+    fullName: string;
     nickname: string;
     primaryPosition: bigint;
+    secondaryPosition: bigint;
+    tertiaryPosition: bigint;
     level: bigint;
     isMinor: boolean;
     guardian: string;

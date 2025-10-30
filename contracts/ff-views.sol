@@ -13,7 +13,7 @@ interface IFFClub {
 
 interface IFFPlayer {
 	enum Visibility { Public, Restricted }
-	struct Player { uint256 id; address account; string nickname; uint8 primaryPosition; uint8 level; bool isMinor; address guardian; Visibility visibility; uint256 clubId; }
+	struct Player { uint256 id; address account; string fullName; string nickname; uint8 primaryPosition; uint8 secondaryPosition; uint8 tertiaryPosition; uint8 level; bool isMinor; address guardian; Visibility visibility; uint256 clubId; }
 	function getPlayer(uint256 playerId) external view returns (Player memory);
 }
 

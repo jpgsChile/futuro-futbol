@@ -46,7 +46,17 @@ return (
 						address: CONTRACTS.FFPlayer as `0x${string}`,
 						abi: FFPlayerAbi,
 						functionName: "registerPlayerFF",
-						args: [nickname, Number(primaryPosition), Number(level), isMinor, (guardian || "0x0000000000000000000000000000000000000000") as `0x${string}`, Number(visibility)]
+						args: [
+							fullName,
+							nickname,
+							Number(primaryPosition),
+							Number(secondaryPosition || "0"),
+							Number(tertiaryPosition || "0"),
+							Number(level),
+							isMinor,
+							(guardian || "0x0000000000000000000000000000000000000000") as `0x${string}`,
+							Number(visibility)
+						]
 					});
 				}}
 			className="card form"

@@ -50,8 +50,11 @@ export const FFViewsAbi = [
         components: [
           { name: "id", type: "uint256" },
           { name: "account", type: "address" },
+          { name: "fullName", type: "string" },
           { name: "nickname", type: "string" },
           { name: "primaryPosition", type: "uint8" },
+          { name: "secondaryPosition", type: "uint8" },
+          { name: "tertiaryPosition", type: "uint8" },
           { name: "level", type: "uint8" },
           { name: "isMinor", type: "bool" },
           { name: "guardian", type: "address" },

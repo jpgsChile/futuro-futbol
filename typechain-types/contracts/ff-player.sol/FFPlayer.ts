@@ -27,8 +27,11 @@ export declare namespace FFPlayer {
   export type PlayerStruct = {
     id: BigNumberish;
     account: AddressLike;
+    fullName: string;
     nickname: string;
     primaryPosition: BigNumberish;
+    secondaryPosition: BigNumberish;
+    tertiaryPosition: BigNumberish;
     level: BigNumberish;
     isMinor: boolean;
     guardian: AddressLike;
@@ -39,8 +42,11 @@ export declare namespace FFPlayer {
   export type PlayerStructOutput = [
     id: bigint,
     account: string,
+    fullName: string,
     nickname: string,
     primaryPosition: bigint,
+    secondaryPosition: bigint,
+    tertiaryPosition: bigint,
     level: bigint,
     isMinor: boolean,
     guardian: string,
@@ -49,8 +55,11 @@ export declare namespace FFPlayer {
   ] & {
     id: bigint;
     account: string;
+    fullName: string;
     nickname: string;
     primaryPosition: bigint;
+    secondaryPosition: bigint;
+    tertiaryPosition: bigint;
     level: bigint;
     isMinor: boolean;
     guardian: string;
@@ -94,6 +103,9 @@ export interface FFPlayerInterface extends Interface {
     functionFragment: "registerPlayerFF",
     values: [
       string,
+      string,
+      BigNumberish,
+      BigNumberish,
       BigNumberish,
       BigNumberish,
       boolean,
@@ -149,18 +161,21 @@ export namespace PlayerRegisteredEvent {
   export type InputTuple = [
     id: BigNumberish,
     account: AddressLike,
+    fullName: string,
     nickname: string,
     isMinor: boolean
   ];
   export type OutputTuple = [
     id: bigint,
     account: string,
+    fullName: string,
     nickname: string,
     isMinor: boolean
   ];
   export interface OutputObject {
     id: bigint;
     account: string;
+    fullName: string;
     nickname: string;
     isMinor: boolean;
   }
@@ -231,8 +246,11 @@ export interface FFPlayer extends BaseContract {
 
   registerPlayerFF: TypedContractMethod<
     [
+      fullName: string,
       nickname: string,
       primaryPosition: BigNumberish,
+      secondaryPosition: BigNumberish,
+      tertiaryPosition: BigNumberish,
       level: BigNumberish,
       isMinor: boolean,
       guardian: AddressLike,
@@ -272,8 +290,11 @@ export interface FFPlayer extends BaseContract {
     nameOrSignature: "registerPlayerFF"
   ): TypedContractMethod<
     [
+      fullName: string,
       nickname: string,
       primaryPosition: BigNumberish,
+      secondaryPosition: BigNumberish,
+      tertiaryPosition: BigNumberish,
       level: BigNumberish,
       isMinor: boolean,
       guardian: AddressLike,
@@ -313,7 +334,7 @@ export interface FFPlayer extends BaseContract {
       PlayerJoinedClubEvent.OutputObject
     >;
 
-    "PlayerRegistered(uint256,address,string,bool)": TypedContractEvent<
+    "PlayerRegistered(uint256,address,string,string,bool)": TypedContractEvent<
       PlayerRegisteredEvent.InputTuple,
       PlayerRegisteredEvent.OutputTuple,
       PlayerRegisteredEvent.OutputObject
