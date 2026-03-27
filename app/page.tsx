@@ -7,26 +7,30 @@ const ProfileSelector = dynamic(
 );
 
 /**
- * HomePage — Diseño en dos zonas con jerarquía visual clara.
+ * HomePage — Landing de producto LigaX.
  *
- * ZONA 1 — Presentación (home-intro):
- *   Grid 60/40: hero con copy y features (izq) + estado de wallet (der)
- *   Ambas columnas tienen contenido de peso equivalente.
- *   Un separador visual marca el cambio de zona.
+ * FILA 1  (home-intro  — grid 60/40):
+ *   izq → hero copy + lista de capacidades
+ *   der → WalletPanel (estado + conectar/desconectar)
  *
- * ZONA 2 — Acción (home-action):
- *   El selector de rol ocupa el ancho completo.
- *   Es la única acción visible → máxima claridad de flujo.
- *   Sin card wrapper exterior: el selector tiene su propio espacio.
+ * FILA 2  (home-action — full width):
+ *   selector de rol sin wrappers redundantes
+ *
+ * Flujo UX:
+ *   1. Entender el producto   (hero izq)
+ *   2. Ver estado de conexión (panel der)
+ *   3. Elegir rol             (FILA 2)
+ *   4. Conectar wallet        (inline en selector)
+ *   5. Continuar              (CTA en selector)
  */
 export default function HomePage() {
   return (
     <main className="home-page">
 
-      {/* ── ZONA 1: Presentación ──────────────────────────── */}
+      {/* ── FILA 1: Hero + Panel de wallet ─────────────── */}
       <section className="home-intro">
 
-        {/* Columna izquierda: identidad + propuesta de valor */}
+        {/* Columna izquierda — propuesta de valor */}
         <div className="home-intro-left">
           <span className="home-eyebrow">⚽ Gestión deportiva on-chain</span>
 
@@ -62,19 +66,19 @@ export default function HomePage() {
           </ul>
         </div>
 
-        {/* Columna derecha: estado de la wallet */}
+        {/* Columna derecha — WalletPanel (estado + connect/disconnect) */}
         <div className="home-intro-right">
           <QuickChecks />
         </div>
 
       </section>
 
-      {/* ── Divisor de zona ───────────────────────────────── */}
+      {/* ── Divisor de sección ──────────────────────────── */}
       <div className="home-divider">
         <span className="home-divider-label">¿Cuál es tu rol?</span>
       </div>
 
-      {/* ── ZONA 2: Acción — selector de perfil ───────────── */}
+      {/* ── FILA 2: Selector de perfil (full width) ─────── */}
       <section className="home-action">
         <ProfileSelector />
       </section>

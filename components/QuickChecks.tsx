@@ -4,15 +4,22 @@ import { useAccount, useReadContract } from "wagmi";
 import { useEffect, useState } from "react";
 import { CONTRACTS } from "@/lib/contracts";
 import { FFRolesAbi } from "@/abi/FFRoles";
+import dynamic from "next/dynamic";
+
+const Connect = dynamic(() => import("@/components/Connect"), { ssr: false });
 
 /**
- * QuickChecks — Panel de estado de conexión simplificado.
+ * WalletPanel — Panel derecho de la home.
  *
- * OPTIMIZACIONES (mantenidas):
- * 1. Patron mounted anti-SSR: evita hydration mismatch.
- * 2. useReadContract solo ejecuta si está conectado.
+ * Agrupa en una sola columna sticky:
+ *  1. Estado de conexión con indicadores visuales
+ *  2. Rol on-chain (si conectado)
+ *  3. Bloque de conexión / desconexión (Connect embebido)
+ *
+ * Diseño: glass card con jerarquía visual real.
+ * No expone errores técnicos del provider.
  */
-export default function QuickChecks() {
+export default function WalletPanel() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -35,45 +42,92 @@ export default function QuickChecks() {
     query: { enabled: mounted && !!leagueRole && !!address },
   });
 
-  // Skeleton antes de montar
+  // ── Skeleton SSR ─────────────────────────────────────────
   if (!mounted) {
     return (
-      <div className="card" style={{ minHeight: 100 }}>
-        <h3 style={{ marginBottom: 12, fontSize: 15 }}>Estado de conexión</h3>
-        <div style={{ opacity: 0.3, fontSize: 13 }}>Cargando…</div>
+      <div className="wallet-panel">
+        <div className="wallet-panel-header">
+          <span className="wallet-panel-title">Estado de conexión</span>
+        </div>
+        <div className="wallet-panel-skeleton" aria-hidden="true">
+          <div className="skeleton-line" style={{ width: "60%" }} />
+          <div className="skeleton-line" style={{ width: "80%" }} />
+          <div className="skeleton-line" style={{ width: "45%" }} />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="card">
-      <h3 style={{ marginBottom: 14, fontSize: 15 }}>Estado de conexión</h3>
-      <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 8 }}>
-        <StatusItem
+    <div className="wallet-panel">
+
+      {/* ── Encabezado ──────────────────────────────────── */}
+      <div className="wallet-panel-header">
+        <span className="wallet-panel-title">Estado de conexión</span>
+        {/* Indicador de estado global */}
+        <span className={`wallet-panel-badge ${isConnected ? "wallet-panel-badge-ok" : "wallet-panel-badge-idle"}`}>
+          {isConnected ? "Conectado" : "Sin conectar"}
+        </span>
+      </div>
+
+      {/* ── Checks de estado on-chain ─────────────────── */}
+      <ul className="wallet-status-list">
+        <WalletStatusItem
           ok={isConnected}
-          label={isConnected ? "Wallet conectada" : "Wallet desconectada"}
+          label={
+            isConnected && address
+              ? `${address.slice(0, 8)}…${address.slice(-5)}`
+              : "Wallet desconectada"
+          }
+          sublabel={isConnected ? "Dirección verificada" : ""}
         />
         {isConnected && (
-          <StatusItem
+          <WalletStatusItem
             ok={!!hasLeague}
-            label={hasLeague ? "Rol de liga verificado ✓" : "Sin rol de liga asignado"}
+            label={hasLeague ? "Rol de liga asignado" : "Sin rol de liga"}
+            sublabel={hasLeague ? "Permiso on-chain ✓" : "Requiere asignación"}
           />
         )}
       </ul>
+
+      {/* ── Divisor ───────────────────────────────────── */}
+      <div className="wallet-panel-divider" />
+
+      {/* ── Bloque de conexión embebido ───────────────── */}
+      <div className="wallet-panel-connect">
+        {!isConnected && (
+          <p className="wallet-panel-connect-hint">
+            Conectá tu wallet para acceder a las funciones de LigaX.
+          </p>
+        )}
+        <Connect />
+      </div>
+
     </div>
   );
 }
 
-function StatusItem({ ok, label }: { ok: boolean; label: string }) {
+function WalletStatusItem({
+  ok,
+  label,
+  sublabel,
+}: {
+  ok: boolean;
+  label: string;
+  sublabel?: string;
+}) {
   return (
-    <li style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13 }}>
-      <span style={{
-        width: 8, height: 8, borderRadius: "50%", flexShrink: 0,
-        background: ok ? "var(--color-success-text, #4ade80)" : "var(--color-text-dim, #555)",
-        boxShadow: ok ? "0 0 6px var(--color-success-text, #4ade80)" : "none",
-        transition: "background 0.2s ease",
-      }} />
-      <span style={{ color: ok ? "var(--color-text)" : "var(--color-text-muted)" }}>{label}</span>
+    <li className="wallet-status-item">
+      <span
+        className={`wallet-status-dot ${ok ? "wallet-status-dot-ok" : "wallet-status-dot-idle"}`}
+        aria-hidden="true"
+      />
+      <div className="wallet-status-text">
+        <span className="wallet-status-label">{label}</span>
+        {sublabel && (
+          <span className="wallet-status-sublabel">{sublabel}</span>
+        )}
+      </div>
     </li>
   );
 }
