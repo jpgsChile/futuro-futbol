@@ -1,5 +1,5 @@
 /* =========================================================
-   FUTURO FÚTBOL — Design System v2
+   LIGAX — Design System v2
    Fase 1: Rediseño visual. Solo CSS, sin tocar lógica.
    ========================================================= */
 
@@ -11,30 +11,30 @@
 
 /* ── Design Tokens ────────────────────────────────────── */
 :root {
-  /* Colors */
-  --color-bg:          #080c18;
-  --color-surface:     #0f1420;
-  --color-surface-2:   #151c2e;
-  --color-border:      #1e2a42;
-  --color-border-2:    #283452;
+  /* Colors — refinados para mayor profundidad visual */
+  --color-bg:          #07090f;
+  --color-surface:     rgba(14, 20, 38, 0.75);  /* semi-transparente para glass */
+  --color-surface-2:   rgba(20, 28, 50, 0.8);
+  --color-border:      rgba(60, 80, 130, 0.25);
+  --color-border-2:    rgba(80, 110, 180, 0.40);
 
   --color-brand:       #e84142;
   --color-brand-hover: #c7393a;
   --color-brand-light: rgba(232,65,66,0.12);
 
-  --color-accent:      #00d4aa;  /* verde Avalanche */
-  --color-accent-2:    #3b5bdb;  /* azul acento */
+  --color-accent:      #00d4aa;
+  --color-accent-2:    #3b5bdb;
 
   --color-text:        #edf0f7;
   --color-text-muted:  #8b96b3;
   --color-text-dim:    #5c6888;
 
-  --color-success-bg:  #0b1f10;
-  --color-success-border: #1a4526;
+  --color-success-bg:  rgba(11, 31, 16, 0.8);
+  --color-success-border: rgba(26, 69, 38, 0.6);
   --color-success-text:#6ee99e;
 
-  --color-warn-bg:     #1f130a;
-  --color-warn-border: #4d2f1a;
+  --color-warn-bg:     rgba(31, 19, 10, 0.8);
+  --color-warn-border: rgba(77, 47, 26, 0.6);
   --color-warn-text:   #f0a070;
 
   --color-error:       #f06464;
@@ -57,10 +57,15 @@
   --radius-xl:  20px;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-card: 0 4px 24px rgba(0,0,0,0.45);
-  --shadow-hero: 0 8px 48px rgba(0,0,0,0.6);
-  --shadow-glow: 0 0 32px rgba(232,65,66,0.2);
+  /* Shadows — más profundas para resaltar el glass */
+  --shadow-card: 0 4px 32px rgba(0,0,0,0.55);
+  --shadow-hero: 0 8px 56px rgba(0,0,0,0.7);
+  --shadow-glow: 0 0 40px rgba(232,65,66,0.22);
+
+  /* Glass */
+  --glass-blur:    12px;
+  --glass-border:  rgba(255,255,255,0.07);
+  --glass-inset:   inset 0 1px 0 rgba(255,255,255,0.06);
 
   /* Typography */
   --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;
@@ -101,7 +106,28 @@ a { color: inherit; text-decoration: none; }
 /* ── Layout ───────────────────────────────────────────── */
 .app-body {
   min-height: 100vh;
-  background: var(--color-bg);
+  isolation: isolate;
+  /* Composición de fondo: azul profundo + acento cálido rojo + base oscura */
+  background:
+    radial-gradient(ellipse 80% 60% at 12% 18%,  rgba(37, 99, 235, 0.28) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 55% at 88% 80%,  rgba(220, 38, 38, 0.22) 0%, transparent 52%),
+    radial-gradient(ellipse 50% 40% at 75% 10%,  rgba(59, 91, 219, 0.14) 0%, transparent 45%),
+    radial-gradient(ellipse 55% 45% at 20% 88%,  rgba(200, 30, 30, 0.12) 0%, transparent 48%),
+    radial-gradient(ellipse 90% 70% at 50% 50%,  rgba(10, 15, 40, 0.60) 0%, transparent 70%),
+    var(--color-bg);
+}
+
+/* Sin grid — fondo limpio, solo luces ambientales difusas */
+.app-body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  /* Manchas de luz borrosas adicionales para profundidad */
+  background:
+    radial-gradient(ellipse 40% 30% at 30% 60%, rgba(37, 99, 235, 0.07) 0%, transparent 100%),
+    radial-gradient(ellipse 35% 25% at 70% 35%, rgba(220, 38, 38, 0.06) 0%, transparent 100%);
 }
 
 .page-wrapper {
@@ -135,17 +161,37 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ── Cards ────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .card {
+  /* Glassmorphism: fondo semitransparente + blur moderado */
   background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   padding: var(--space-6);
-  box-shadow: var(--shadow-card);
-  transition: border-color var(--transition);
+  box-shadow:
+    var(--shadow-card),
+    var(--glass-inset);
+  transition:
+    border-color 0.22s ease,
+    transform    0.22s ease,
+    box-shadow   0.22s ease;
+  animation: fadeInUp 0.28s ease both;
+  position: relative;
+  z-index: 1;
 }
 
 .card:hover {
-  border-color: var(--color-border-2);
+  border-color: rgba(255,255,255,0.13);
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 40px rgba(0,0,0,0.50),
+    inset 0 1px 0 rgba(255,255,255,0.09);
 }
 
 .card-title {
@@ -157,14 +203,23 @@ a { color: inherit; text-decoration: none; }
 
 /* ── Hero Card ────────────────────────────────────────── */
 .hero-card {
-  background: linear-gradient(135deg, var(--color-surface) 0%, #0d1528 100%);
-  border: 1px solid var(--color-border);
+  /* Glass premium en el hero */
+  background: linear-gradient(
+    135deg,
+    rgba(14, 20, 38, 0.85) 0%,
+    rgba(10, 15, 32, 0.80) 100%
+  );
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: var(--radius-xl);
   padding: var(--space-10) var(--space-8);
   margin-bottom: var(--space-6);
   position: relative;
   overflow: hidden;
-  box-shadow: var(--shadow-hero);
+  box-shadow:
+    var(--shadow-hero),
+    inset 0 1px 0 rgba(255,255,255,0.07);
 }
 
 .hero-card::before {
@@ -446,7 +501,7 @@ a { color: inherit; text-decoration: none; }
   font-size: 13px;
   font-weight: 500;
   font-family: var(--font-sans);
-  transition: background var(--transition), border-color var(--transition), color var(--transition);
+  transition: background var(--transition), border-color var(--transition), color var(--transition), transform 0.15s ease;
   text-decoration: none;
   line-height: 1;
 }
@@ -455,6 +510,7 @@ a { color: inherit; text-decoration: none; }
   background: #1a2238;
   border-color: var(--color-border-2);
   color: var(--color-text);
+  transform: scale(1.02);
 }
 
 .btn-secondary:disabled {
@@ -568,10 +624,10 @@ a { color: inherit; text-decoration: none; }
   top: 0;
   z-index: 50;
   width: 100%;
-  border-bottom: 1px solid var(--color-border);
-  background: rgba(8,12,24,0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: rgba(7, 9, 15, 0.80);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .navbar-inner {
@@ -899,8 +955,8 @@ hr {
 
 .btn-entity:hover {
   background: var(--entity-accent-hover, var(--color-brand-hover));
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px var(--entity-accent-light, rgba(232,65,66,0.3));
+  transform: scale(1.03) translateY(-1px);
+  box-shadow: 0 6px 20px var(--entity-accent-light, rgba(232,65,66,0.35));
 }
 
 .btn-entity:disabled {
@@ -916,23 +972,28 @@ hr {
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-4) var(--space-6);
-  background: var(--entity-surface, var(--color-surface));
-  border: 1px solid var(--entity-accent-border, var(--color-border));
+  /* Glass coherente con el sistema de cards */
+  background: var(--entity-surface, rgba(14, 20, 38, 0.65));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--entity-accent-border, rgba(255,255,255,0.07));
   border-radius: var(--radius-lg);
   margin-bottom: var(--space-5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
 .entity-header-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-sm);
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
   background: var(--entity-accent-light, var(--color-brand-light));
-  border: 1px solid var(--entity-accent-border, rgba(232,65,66,0.2));
+  border: 1px solid var(--entity-accent-border, rgba(232,65,66,0.25));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 20px;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
 .entity-header-label {

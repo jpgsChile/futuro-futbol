@@ -140,7 +140,7 @@ export default function Navbar() {
         <Link href="/" className="navbar-brand">
           <div className="navbar-brand-icon">⚽</div>
           <div className="navbar-brand-name">
-            <span>Futuro Fútbol</span>
+            <span>LigaX</span>
             <span className="navbar-brand-sub">Avalanche Fuji</span>
           </div>
         </Link>

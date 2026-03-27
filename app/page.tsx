@@ -18,12 +18,12 @@ export default function HomePage() {
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}>
               <Image
                 src="/futurofutbol_logo.jpeg"
-                alt="Futuro Fútbol"
+                alt="LigaX"
                 width={56}
                 height={56}
                 style={{ borderRadius: 12, flexShrink: 0 }}
               />
-              <h1 className="hero-title" style={{ margin: 0 }}>Futuro Fútbol</h1>
+              <h1 className="hero-title" style={{ margin: 0 }}>LigaX</h1>
             </div>
             <p className="hero-desc">
               Gestión de ligas, clubes, jugadores y partidos en blockchain.

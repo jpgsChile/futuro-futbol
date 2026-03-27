@@ -3,9 +3,12 @@ import "./globals.css";
 import { ReactNode } from "react";
 import { Providers } from "./providers";
 import Navbar from "@/components/navbar";
+import dynamic from "next/dynamic";
+
+const MouseGlow = dynamic(() => import("@/components/MouseGlow"), { ssr: false });
 
 export const metadata = {
-  title: "Futuro Fútbol | Gestión on-chain en Avalanche",
+  title: "LigaX | Gestión on-chain en Avalanche",
   description:
     "Plataforma Web3 para gestionar ligas, clubes, jugadores y partidos de fútbol con contratos inteligentes en Avalanche Fuji. Transparencia en tiempo real.",
 };
@@ -14,7 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="es">
       <head>
-        <title>Futuro Fútbol | Avalanche</title>
+        <title>LigaX | Avalanche</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
@@ -28,6 +31,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body className="app-body">
+        <MouseGlow />
         <Providers>
           <Navbar />
           <div className="page-wrapper">{children}</div>
