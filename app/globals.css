@@ -1030,11 +1030,430 @@ hr {
 }
 
 /* =========================================================
-   HOME DASHBOARD LAYOUT — Fase layout
-   Columna principal + columna lateral para la home.
-   Elimina la card huérfana en la 4ª posición del grid.
+   HOME — Sistema de diseño en dos zonas
+   Zona 1: Presentación (grid 60/40 — hero + estado wallet)
+   Zona 2: Acción (selector de rol, full-width)
    ========================================================= */
 
+/* ── Contenedor raíz de la home ──────────────────────────
+   max-width propio para que el padding sea consistente
+   en todas las resoluciones sin depender de .container     */
+.home-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6) var(--space-10);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── ZONA 1: Presentación ────────────────────────────────
+   Grid asimétrico 5:3 — el hero (izq) tiene más espacio
+   que el sidebar (der), pero ambos tienen peso equivalente
+   porque el sidebar se llena con la card de estado.         */
+.home-intro {
+  display: grid;
+  grid-template-columns: 5fr 3fr;
+  gap: var(--space-8);
+  align-items: start;
+  padding-bottom: var(--space-8);
+}
+
+@media (max-width: 820px) {
+  .home-intro {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    padding-bottom: var(--space-6);
+  }
+}
+
+/* Columna izquierda: texto jerárquico */
+.home-intro-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Eyebrow: texto pequeño sobre el título */
+.home-eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-brand);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-4);
+  background: var(--color-brand-light);
+  border: 1px solid rgba(232,65,66,0.25);
+  border-radius: var(--radius-full);
+  padding: 4px 12px;
+}
+
+/* Titular principal: fuente grande, gradiente blanco */
+.home-headline {
+  font-size: 3.2rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin: 0 0 var(--space-4) 0;
+  background: linear-gradient(135deg, #ffffff 0%, #b8c4e0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media (max-width: 820px) {
+  .home-headline { font-size: 2.4rem; }
+}
+
+/* Subtítulo: cuerpo de texto muted bajo el título */
+.home-subline {
+  font-size: 15px;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin: 0 0 var(--space-6) 0;
+  max-width: 400px;
+}
+
+/* Lista de 3 features con icono alineado */
+.home-features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.home-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.home-feature-icon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  margin-top: 1px; /* alineación óptica con el texto */
+}
+
+.home-feature strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+
+.home-feature span {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+/* Columna derecha: QuickChecks sticky */
+.home-intro-right {
+  position: sticky;
+  top: calc(64px + var(--space-4));
+}
+
+@media (max-width: 820px) {
+  .home-intro-right {
+    position: static;
+  }
+}
+
+/* ── Divisor entre zonas ─────────────────────────────────
+   Línea horizontal con label centrado que articula
+   el cambio de zona "presentación → acción".              */
+.home-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.home-divider::before,
+.home-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.home-divider-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+
+
+/* ── Profile Selector ────────────────────────────────────
+   Contenedor del selector + bloque de conexión.
+   Sin card anidada — fondo limpio.                         */
+.profile-selector {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* Grid de 3 tarjetas de rol */
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+@media (max-width: 640px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+}
+
+/* ── Tarjeta de perfil ───────────────────────────────────
+   Diseño: reset de button, glass, hover y estado selected.
+   Las métricas de tipografía están ajustadas para que
+   icono / label / desc tengan ritmo vertical claro.        */
+.profile-card {
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: var(--font-sans);
+  text-align: left;
+  width: 100%;
+
+  background: var(--color-surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  /* Padding interno amplio para dar respiración */
+  padding: var(--space-6) var(--space-5);
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  /* Sin gap global: cada elemento define su propio margen inferior */
+
+  transition:
+    border-color 0.2s ease,
+    background   0.2s ease,
+    transform    0.2s ease,
+    box-shadow   0.2s ease;
+}
+
+.profile-card:hover {
+  border-color: var(--entity-accent-border, var(--color-border-2));
+  background: var(--entity-accent-light, var(--color-surface-2));
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+}
+
+.profile-card-selected {
+  border-color: var(--entity-accent, var(--color-brand));
+  border-width: 2px;
+  background: var(--entity-accent-light, var(--color-brand-light));
+  box-shadow:
+    0 0 0 1px var(--entity-accent, var(--color-brand)),
+    0 8px 28px rgba(0,0,0,0.35);
+  transform: translateY(-3px);
+}
+
+.profile-card-selected:hover {
+  transform: translateY(-5px);
+}
+
+/* Icono: grande, respira abajo */
+.profile-card-icon {
+  font-size: 36px;
+  line-height: 1;
+  display: block;
+  margin-bottom: var(--space-4);
+}
+
+/* Label: nombre del rol, bold prominente */
+.profile-card-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text);
+  display: block;
+  margin-bottom: var(--space-2);
+  letter-spacing: -0.01em;
+}
+
+/* Descripción: cuerpo pequeño muted */
+.profile-card-desc {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  display: block;
+}
+
+/* Badge "✓ Seleccionado": aparece al elegir */
+.profile-card-check {
+  display: inline-block;
+  margin-top: var(--space-3);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--entity-accent-text, var(--color-brand));
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ── Bloque de conexión contextual ───────────────────────
+   Aparece renderizándose directamente cuando selected !== null.
+   Sin card anidada — es un strip plano con padding lateral.    */
+.profile-connect {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-2);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.profile-connect-hint {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+  min-width: 200px;
+}
+
+.profile-connect-hint strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* Estado OK: wallet conectada */
+.profile-connect-hint-ok {
+  color: var(--color-success-text);
+}
+
+.profile-connect-hint-ok strong {
+  color: var(--color-success-text);
+}
+
+/* ── Wallet hint — no provider detected ─────────────────── */
+.wallet-hint {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-warn-bg);
+  border: 1px solid var(--color-warn-border);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.wallet-hint-title {
+  font-weight: 600;
+  color: var(--color-warn-text);
+}
+
+/* ── Wallet connected card (en Connect.tsx) ──────────────── */
+.wallet-connected-card {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: rgba(11, 31, 16, 0.55);
+  border: 1px solid rgba(26, 69, 38, 0.5);
+  border-radius: var(--radius-md);
+}
+
+.wallet-connected-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.wallet-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-success-text);
+  box-shadow: 0 0 6px var(--color-success-text);
+  flex-shrink: 0;
+}
+
+.wallet-connected-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-success-text);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.wallet-address {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text);
+  letter-spacing: 0.02em;
+  word-break: break-all;
+}
+
+.wallet-actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.btn-wallet-disconnect {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(220, 38, 38, 0.35);
+  background: rgba(220, 38, 38, 0.10);
+  color: #fca5a5;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+  line-height: 1;
+}
+
+.btn-wallet-disconnect:hover {
+  background: rgba(220, 38, 38, 0.20);
+  border-color: rgba(220, 38, 38, 0.60);
+  color: #fecaca;
+}
+
+.wallet-connected-note {
+  font-size: 11px;
+  color: var(--color-text-dim);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Legacy: clases del home-dashboard anterior ──────────
+   Se mantienen por compatibilidad con otras rutas que
+   puedan usarlas (ninguna en este momento, pero por
+   seguridad no se eliminan del todo).                      */
 .home-dashboard {
   display: grid;
   grid-template-columns: 1fr 340px;
@@ -1042,32 +1461,298 @@ hr {
   align-items: start;
   margin-top: var(--space-6);
 }
-
-/* Columna principal: features + quick-start */
-.home-main {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
-}
-
-/* Columna lateral: QuickChecks + diagnóstico */
+.home-main  { display: flex; flex-direction: column; gap: var(--space-5); }
 .home-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
-  position: sticky;
-  top: calc(var(--navbar-height, 64px) + var(--space-4));
+  display: flex; flex-direction: column; gap: var(--space-5);
+  position: sticky; top: calc(64px + var(--space-4));
+}
+@media (max-width: 800px) {
+  .home-dashboard { grid-template-columns: 1fr; }
+  .home-sidebar   { position: static; }
+}
+/* =========================================================
+   PROFILE SELECTOR — Flujo de selección de perfil en home
+   Usa los entity tokens ya definidos (.entity-league, etc.)
+   ========================================================= */
+
+/* Grid de 3 tarjetas de perfil */
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
 }
 
-/* Responsive: en pantallas pequeñas, una sola columna */
+@media (max-width: 680px) {
+  .profile-grid { grid-template-columns: 1fr; }
+}
+
+/* Tarjeta de perfil — base */
+.profile-card {
+  /* Reset de button */
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: var(--font-sans);
+  text-align: left;
+  width: 100%;
+
+  /* Glass card */
+  background: var(--color-surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5) var(--space-4);
+  cursor: pointer;
+
+  /* Layout interno */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+
+  /* Transiciones */
+  transition:
+    border-color 0.22s ease,
+    background 0.22s ease,
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.profile-card:hover {
+  border-color: var(--entity-accent-border, var(--color-border-2));
+  background: var(--entity-accent-light, var(--color-surface-2));
+  transform: translateY(-3px);
+  box-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.45),
+    0 0 0 0px var(--entity-accent, transparent);
+}
+
+/* Estado seleccionado: borde + glow del acento de entidad */
+.profile-card-selected {
+  border-color: var(--entity-accent, var(--color-brand));
+  background: var(--entity-accent-light, var(--color-brand-light));
+  box-shadow:
+    0 0 0 1px var(--entity-accent, var(--color-brand)),
+    0 8px 32px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.profile-card-selected:hover {
+  transform: translateY(-3px);
+}
+
+/* Elementos internos de la card */
+.profile-card-icon {
+  font-size: 32px;
+  line-height: 1;
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+.profile-card-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text);
+  display: block;
+}
+
+.profile-card-desc {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  display: block;
+}
+
+/* Badge "✓ Seleccionado" */
+.profile-card-check {
+  display: inline-block;
+  margin-top: var(--space-2);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--entity-accent-text, var(--color-brand));
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+/* ── Connect block ────────────────────────────────────────
+   Se revela con animación suave después de elegir perfil.
+   max-height trick: transición de 0 a valor suficientemente
+   grande para contener cualquier contenido del bloque.
+   ──────────────────────────────────────────────────────── */
+.connect-block {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition:
+    max-height 0.38s ease,
+    opacity 0.28s ease;
+}
+
+.connect-block-visible {
+  max-height: 300px;
+  opacity: 1;
+}
+
+.connect-block-card {
+  margin-top: 0;
+  border-color: var(--color-border-2);
+}
+
+.connect-block-hint {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-4) 0;
+  line-height: 1.5;
+}
+
+/* ── Wallet hint — no provider detected ─────────────────── */
+.wallet-hint {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-warn-bg);
+  border: 1px solid var(--color-warn-border);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.wallet-hint-title {
+  font-weight: 600;
+  color: var(--color-warn-text);
+}
+
+/* ── Home layout — dos filas ─────────────────────────────
+   Fila 1: hero (izq) + sidebar estado (der) — equilibradas
+   Fila 2: selector de perfil a ancho completo
+   ─────────────────────────────────────────────────────── */
+
+/* Fila superior: hero ↔ estado de conexión */
+.home-top {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: var(--space-6);
+  align-items: start;
+  margin-bottom: var(--space-5);
+}
+
 @media (max-width: 800px) {
-  .home-dashboard {
+  .home-top {
     grid-template-columns: 1fr;
   }
-  .home-sidebar {
+}
+
+/* Columna izquierda del top: texto libre, sin card */
+.home-top-hero {
+  padding-top: var(--space-2);
+}
+
+/* Columna derecha del top: QuickChecks sticky */
+.home-top-sidebar {
+  position: sticky;
+  top: calc(var(--navbar-height, 64px) + var(--space-4));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+@media (max-width: 800px) {
+  .home-top-sidebar {
     position: static;
   }
 }
 
+/* Fila inferior: profile selector a ancho completo */
+.home-profile-row {
+  /* Hereda .card, solo ajustamos top spacing */
+  margin-top: 0;
+}
 
+/* ── Wallet connected card ───────────────────────────────
+   Se muestra en el bloque de conexión del ProfileSelector
+   cuando la wallet ya está conectada.
+   ─────────────────────────────────────────────────────── */
+.wallet-connected-card {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: rgba(11, 31, 16, 0.55);
+  border: 1px solid rgba(26, 69, 38, 0.5);
+  border-radius: var(--radius-md);
+}
 
+/* Línea de estado: punto verde + label */
+.wallet-connected-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.wallet-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-success-text);
+  box-shadow: 0 0 6px var(--color-success-text);
+  flex-shrink: 0;
+}
+
+.wallet-connected-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-success-text);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+/* Dirección truncada en monospace */
+.wallet-address {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text);
+  letter-spacing: 0.02em;
+  word-break: break-all;
+}
+
+/* Fila de acciones: desconectar + cambiar */
+.wallet-actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* Botón de desconexión — prominente pero no rojo */
+.btn-wallet-disconnect {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(220, 38, 38, 0.35);
+  background: rgba(220, 38, 38, 0.10);
+  color: #fca5a5;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+  line-height: 1;
+}
+
+.btn-wallet-disconnect:hover {
+  background: rgba(220, 38, 38, 0.20);
+  border-color: rgba(220, 38, 38, 0.60);
+  color: #fecaca;
+}
+
+/* Nota informativa debajo de las acciones */
+.wallet-connected-note {
+  font-size: 11px;
+  color: var(--color-text-dim);
+  margin: 0;
+  line-height: 1.5;
+}

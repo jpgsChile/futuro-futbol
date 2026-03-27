@@ -109,6 +109,9 @@ export default function Navbar() {
   const { data: bal } = useBalance({ address, query: { enabled: !!address } });
 
   const isCorrectChain = chainId === avalancheFuji.id;
+  // Mostrar indicador de red solo cuando hay wallet conectada
+  const showNetworkPill = mounted && !!address;
+  const networkLabel = isCorrectChain ? "Red compatible ✓" : `Red: ${chainId ?? "—"}`;
   const balFormatted =
     mounted && address && bal?.value != null
       ? (Number(bal.value) / 1e18).toFixed(3)
@@ -141,7 +144,6 @@ export default function Navbar() {
           <div className="navbar-brand-icon">⚽</div>
           <div className="navbar-brand-name">
             <span>LigaX</span>
-            <span className="navbar-brand-sub">Avalanche Fuji</span>
           </div>
         </Link>
 
@@ -166,33 +168,27 @@ export default function Navbar() {
 
         {/* Desktop actions */}
         <div className="nav-desktop nav-actions">
-          {mounted && (
+          {/* Pill de red: solo visible con wallet conectada */}
+          {showNetworkPill && (
             <span className={clsx("pill", isCorrectChain ? "pill-ok" : "pill-warn")}>
-              {isCorrectChain ? "Fuji" : `Red: ${chainId ?? "-"}`}
+              {networkLabel}
             </span>
           )}
           {balFormatted && (
-            <span className="pill" title={`${balFormatted} AVAX`}>
-              {balFormatted} AVAX
+            <span className="pill">
+              {balFormatted}
             </span>
           )}
-          {mounted && !isCorrectChain && (
+          {/* Botón de cambio de red: solo si conectado y red incorrecta */}
+          {showNetworkPill && !isCorrectChain && (
             <button
               className="btn-secondary"
               onClick={handleSwitchChain}
               disabled={switching}
             >
-              {switching ? "Cambiando…" : "→ Fuji"}
+              {switching ? "Cambiando…" : "Cambiar red"}
             </button>
           )}
-          <a
-            className="btn-secondary"
-            href="https://core.app/tools/testnet-faucet?token=c&subnet=c"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Faucet
-          </a>
         </div>
 
         {/* Mobile toggle */}
@@ -208,12 +204,13 @@ export default function Navbar() {
       {/* Mobile drawer */}
       {open && (
         <div className="nav-mobile">
-          {mounted && (
+          {/* Estado de red en mobile: solo si hay wallet conectada */}
+          {showNetworkPill && (
             <div style={{ display: "flex", gap: 8, alignItems: "center", padding: "10px 20px", borderBottom: "1px solid var(--color-border)" }}>
               <span className={clsx("pill", isCorrectChain ? "pill-ok" : "pill-warn")}>
-                {isCorrectChain ? "Fuji ✓" : "Red incorrecta"}
+                {isCorrectChain ? "Red compatible ✓" : "Red no compatible"}
               </span>
-              {balFormatted && <span className="pill">{balFormatted} AVAX</span>}
+              {balFormatted && <span className="pill">{balFormatted}</span>}
               {!isCorrectChain && (
                 <button
                   className="btn-secondary"
@@ -221,7 +218,7 @@ export default function Navbar() {
                   disabled={switching}
                   style={{ fontSize: 12 }}
                 >
-                  {switching ? "Cambiando…" : "→ Fuji"}
+                  {switching ? "Cambiando…" : "Cambiar red"}
                 </button>
               )}
             </div>
