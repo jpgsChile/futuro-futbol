@@ -1,0 +1,41 @@
+<svg width="1400" height="900" viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg3" cx="30%" cy="20%" r="85%">
+      <stop offset="0%" stop-color="#0f3b3a"/>
+      <stop offset="55%" stop-color="#0a141c"/>
+      <stop offset="100%" stop-color="#06080f"/>
+    </radialGradient>
+    <radialGradient id="ball3" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="45%" stop-color="#e1f1ef"/>
+      <stop offset="70%" stop-color="#b6c9c8"/>
+      <stop offset="100%" stop-color="#76828f"/>
+    </radialGradient>
+    <radialGradient id="shine3" cx="30%" cy="25%" r="35%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="70%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="field3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1c2b33"/>
+      <stop offset="100%" stop-color="#0b1016"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1400" height="900" fill="url(#bg3)"/>
+  <rect y="610" width="1400" height="290" fill="url(#field3)" opacity="0.35"/>
+
+  <g opacity="0.3" stroke="#7cf3d1" stroke-width="2">
+    <path d="M140 660 H1260"/>
+    <path d="M220 720 H1180"/>
+    <path d="M300 790 H1100"/>
+  </g>
+
+  <circle cx="920" cy="380" r="250" fill="url(#ball3)"/>
+  <circle cx="880" cy="340" r="130" fill="url(#shine3)"/>
+
+  <g fill="none" stroke="#5b6d7f" stroke-width="10" opacity="0.6">
+    <path d="M920 140 C780 210 700 310 690 390 C680 470 730 590 820 660"/>
+    <path d="M1080 240 C1160 320 1180 430 1140 540 C1100 650 1000 720 900 740"/>
+    <path d="M740 280 C840 260 1010 270 1120 340"/>
+  </g>
+</svg>
