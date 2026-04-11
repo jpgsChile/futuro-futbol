@@ -12,3 +12,4 @@ export default function AlineacionesLayout({ children }: { children: ReactNode }
     </div>
   );
 }
+

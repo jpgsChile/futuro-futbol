@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Slide = {
   id: string;
@@ -8,7 +8,12 @@ type Slide = {
   src: string;
   alt: string;
   tag: string;
+  eyebrow: string;
   title: string;
+  description: string;
+  metricLabel: string;
+  metricValue: string;
+  chips: string[];
   poster?: string;
   fallbackSrc?: string;
 };
@@ -21,8 +26,14 @@ const SLIDES: Slide[] = [
     poster: "/hero/hero-loop-poster.svg",
     fallbackSrc: "/hero/hero-3d-01.svg",
     alt: "Clip de accion en estadio con foco en el balon",
-    tag: "Video principal",
-    title: "Momentum de partido",
+    tag: "Matchday feed",
+    eyebrow: "Command visibility",
+    title: "La jornada entra en una capa operativa visible.",
+    description:
+      "El estado del partido, los permisos y la evidencia se sienten como una consola premium, no como un panel improvisado.",
+    metricLabel: "trace depth",
+    metricValue: "24/7",
+    chips: ["Roles firmados", "Timeline live", "Sync visual"],
   },
   {
     id: "hero-video-02",
@@ -31,172 +42,312 @@ const SLIDES: Slide[] = [
     poster: "/hero/hero-loop-poster.svg",
     fallbackSrc: "/hero/hero-3d-02.svg",
     alt: "Clip de jugada intensa con iluminacion de estadio",
-    tag: "Video destacado",
-    title: "Intensidad competitiva",
+    tag: "Control rail",
+    eyebrow: "Operator speed",
+    title: "Permisos y acciones aterrizados en una sola superficie.",
+    description:
+      "Wallet, lectura on-chain y flujos de ejecucion se conectan con una jerarquia clara para tomar decisiones rapidas.",
+    metricLabel: "role checks",
+    metricValue: "100%",
+    chips: ["Wallet ready", "League ops", "Club actions"],
   },
   {
     id: "hero-3d-1",
     type: "image",
     src: "/hero/hero-3d-01.svg",
     alt: "Balon 3D flotando en un estadio iluminado",
-    tag: "3D visual",
-    title: "Identidad de liga",
+    tag: "Identity layer",
+    eyebrow: "Entity graph",
+    title: "Cada club y jugador vive dentro de una identidad verificable.",
+    description:
+      "La estructura de entidades no es decorativa: define quien opera, quien valida y que lectura sostiene cada flujo.",
+    metricLabel: "entities mapped",
+    metricValue: "League wide",
+    chips: ["Clubs", "Players", "Permissions"],
   },
   {
     id: "hero-3d-2",
     type: "image",
     src: "/hero/hero-3d-02.svg",
     alt: "Balon 3D con luces de estadio y grilla",
-    tag: "Matchday",
-    title: "Datos verificados",
+    tag: "Proof trail",
+    eyebrow: "Data credibility",
+    title: "La evidencia deja de ser un adjunto y pasa a ser infraestructura.",
+    description:
+      "Partidos, attestations e IPFS conviven en una narrativa visual lista para auditoria, consulta y continuidad operativa.",
+    metricLabel: "evidence path",
+    metricValue: "IPFS + attest",
+    chips: ["Hash trail", "Read ready", "Proof grade"],
   },
   {
     id: "hero-3d-3",
     type: "image",
     src: "/hero/hero-3d-03.svg",
     alt: "Balon 3D con energia y trazos dinamicos",
-    tag: "On-chain",
-    title: "Evidencia en tiempo real",
+    tag: "Execution tone",
+    eyebrow: "Premium rhythm",
+    title: "La experiencia combina tension de partido con control de producto.",
+    description:
+      "Visual fuerte, motion sobrio y lectura limpia para que el lenguaje Web3 se vea serio, actual y listo para produccion.",
+    metricLabel: "visual system",
+    metricValue: "Cinematic",
+    chips: ["Depth", "Motion", "Credibility"],
   },
 ];
 
 const AUTO_DELAY = 6500;
 
+function getSlidePosition(index: number, activeIndex: number, total: number) {
+  if (index === activeIndex) return "is-active";
+
+  const forwardDistance = (index - activeIndex + total) % total;
+  const backwardDistance = (activeIndex - index + total) % total;
+
+  return forwardDistance <= backwardDistance ? "is-after" : "is-before";
+}
+
 export default function HeroCarousel() {
   const totalSlides = SLIDES.length;
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
-  const [videoError, setVideoError] = useState(false);
+  const [inView, setInView] = useState(true);
+  const [brokenVideos, setBrokenVideos] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const updateMotion = () => setReduceMotion(media.matches);
+
     updateMotion();
+
     if (media.addEventListener) {
       media.addEventListener("change", updateMotion);
       return () => media.removeEventListener("change", updateMotion);
     }
+
     media.addListener(updateMotion);
     return () => media.removeListener(updateMotion);
   }, []);
 
   useEffect(() => {
-    if (reduceMotion || paused || totalSlides <= 1) return;
+    const node = rootRef.current;
+    if (!node || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      { threshold: 0.45 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (reduceMotion || paused || !inView || totalSlides <= 1) return;
+
     const intervalId = window.setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % totalSlides);
     }, AUTO_DELAY);
+
     return () => window.clearInterval(intervalId);
-  }, [paused, reduceMotion, totalSlides]);
+  }, [inView, paused, reduceMotion, totalSlides]);
 
-  const prevIndex = (activeIndex - 1 + totalSlides) % totalSlides;
-  const nextIndex = (activeIndex + 1) % totalSlides;
+  useEffect(() => {
+    const node = rootRef.current;
+    if (!node) return;
 
-  const handlePrev = () => {
-    setActiveIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
+    const videos = Array.from(node.querySelectorAll("video"));
+
+    videos.forEach((video) => {
+      const slideIndex = Number(video.dataset.index);
+      const slide = SLIDES[slideIndex];
+      const isBroken = slide ? brokenVideos[slide.id] : false;
+      const shouldPlay =
+        !reduceMotion &&
+        inView &&
+        slideIndex === activeIndex &&
+        !isBroken;
+
+      if (shouldPlay) {
+        video.play().catch(() => undefined);
+      } else {
+        video.pause();
+      }
+    });
+  }, [activeIndex, brokenVideos, inView, reduceMotion]);
+
+  const goToIndex = (nextIndex: number) => {
+    setActiveIndex((nextIndex + totalSlides) % totalSlides);
   };
 
-  const handleNext = () => {
-    setActiveIndex((prev) => (prev + 1) % totalSlides);
-  };
+  const handlePrev = () => goToIndex(activeIndex - 1);
+  const handleNext = () => goToIndex(activeIndex + 1);
+
+  const isMotionPaused = paused || reduceMotion || !inView;
+  const counterLabel = `${String(activeIndex + 1).padStart(2, "0")} / ${String(
+    totalSlides
+  ).padStart(2, "0")}`;
 
   return (
     <div
-      className="hero-carousel"
+      ref={rootRef}
+      className={`showcase-carousel ${isMotionPaused ? "is-paused" : ""}`}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={() => setPaused(false)}
     >
       <div
-        className="hero-carousel-stage"
+        className="showcase-carousel-stage"
         role="region"
         aria-roledescription="carousel"
-        aria-label="Galeria destacada de futbol"
+        aria-label="Galeria destacada de LigaX"
       >
         {SLIDES.map((slide, index) => {
+          const positionClass = getSlidePosition(index, activeIndex, totalSlides);
           const isActive = index === activeIndex;
-          const isPrev = index === prevIndex;
-          const isNext = index === nextIndex;
-          const stateClass = isActive
-            ? "is-active"
-            : isPrev
-            ? "is-prev"
-            : isNext
-            ? "is-next"
-            : "is-hidden";
-
-          const showVideo = slide.type === "video" && !videoError;
-          const fallbackSrc =
-            slide.fallbackSrc || slide.poster || slide.src;
+          const previewSrc = slide.poster || slide.fallbackSrc || slide.src;
+          const showVideo =
+            slide.type === "video" &&
+            !reduceMotion &&
+            !brokenVideos[slide.id];
 
           return (
-            <div
+            <article
               key={slide.id}
-              className={`hero-carousel-slide ${stateClass}`}
+              className={`showcase-carousel-slide ${positionClass}`}
               aria-hidden={!isActive}
             >
               {showVideo ? (
                 <video
-                  className="hero-carousel-media"
+                  className="showcase-carousel-media"
+                  data-index={index}
                   src={slide.src}
                   poster={slide.poster}
-                  autoPlay
                   muted
                   loop
                   playsInline
-                  preload="metadata"
-                  onError={() => setVideoError(true)}
+                  preload={isActive ? "auto" : "metadata"}
+                  onError={() =>
+                    setBrokenVideos((current) => ({
+                      ...current,
+                      [slide.id]: true,
+                    }))
+                  }
                 />
               ) : (
                 <img
-                  className="hero-carousel-media"
-                  src={fallbackSrc}
+                  className="showcase-carousel-media"
+                  src={previewSrc}
                   alt={slide.alt}
                   loading={isActive ? "eager" : "lazy"}
                 />
               )}
 
-              <div className="hero-carousel-overlay" aria-hidden="true" />
+              <div className="showcase-carousel-overlay" aria-hidden="true" />
 
-              <div className="hero-carousel-caption">
-                <span className="hero-carousel-tag">{slide.tag}</span>
-                <strong>{slide.title}</strong>
+              <div className="showcase-carousel-panel">
+                <div className="showcase-carousel-panel-top">
+                  <span className="showcase-carousel-tag">{slide.tag}</span>
+                  <span className="showcase-carousel-inline-counter">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+
+                <span className="showcase-carousel-eyebrow">{slide.eyebrow}</span>
+                <h3>{slide.title}</h3>
+                <p>{slide.description}</p>
+
+                <div className="showcase-carousel-chip-row">
+                  {slide.chips.map((chip) => (
+                    <span
+                      className="showcase-carousel-chip"
+                      key={`${slide.id}-${chip}`}
+                    >
+                      {chip}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
+
+              <div className="showcase-carousel-stat">
+                <span>{slide.metricLabel}</span>
+                <strong>{slide.metricValue}</strong>
+              </div>
+            </article>
           );
         })}
+      </div>
 
-        <div className="hero-carousel-controls">
+      <div
+        className="showcase-carousel-preview-rail"
+        role="tablist"
+        aria-label="Escenas destacadas"
+      >
+        {SLIDES.map((slide, index) => {
+          const previewSrc = slide.poster || slide.fallbackSrc || slide.src;
+          const isActive = index === activeIndex;
+
+          return (
+            <button
+              key={`${slide.id}-preview`}
+              className={`showcase-carousel-preview ${
+                isActive ? "is-active" : ""
+              }`}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              aria-label={`Ir a ${slide.tag}`}
+              onClick={() => goToIndex(index)}
+            >
+              <img
+                className="showcase-carousel-preview-media"
+                src={previewSrc}
+                alt=""
+                loading="lazy"
+                aria-hidden="true"
+              />
+              <span className="showcase-carousel-preview-copy">
+                <span className="showcase-carousel-preview-index">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <strong>{slide.tag}</strong>
+                <span>{slide.metricValue}</span>
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="showcase-carousel-footer">
+        <div className="showcase-carousel-progress" aria-hidden="true">
+          <span key={activeIndex} className="showcase-carousel-progress-value" />
+        </div>
+
+        <div className="showcase-carousel-controls">
           <button
-            className="hero-carousel-btn"
+            className="showcase-carousel-btn"
             type="button"
-            aria-label="Slide anterior"
+            aria-label="Escena anterior"
             onClick={handlePrev}
           >
             {"<"}
           </button>
+          <div className="showcase-carousel-counter">{counterLabel}</div>
           <button
-            className="hero-carousel-btn"
+            className="showcase-carousel-btn"
             type="button"
-            aria-label="Slide siguiente"
+            aria-label="Escena siguiente"
             onClick={handleNext}
           >
             {">"}
           </button>
         </div>
-      </div>
-
-      <div className="hero-carousel-dots" role="tablist" aria-label="Slides">
-        {SLIDES.map((slide, index) => (
-          <button
-            key={`${slide.id}-dot`}
-            className={`hero-carousel-dot ${index === activeIndex ? "is-active" : ""}`}
-            type="button"
-            aria-label={`Ir a ${slide.tag}`}
-            aria-current={index === activeIndex ? "true" : undefined}
-            onClick={() => setActiveIndex(index)}
-          />
-        ))}
       </div>
     </div>
   );

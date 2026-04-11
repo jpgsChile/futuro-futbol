@@ -30,6 +30,7 @@ npm run compile
 
 # Despliegue a Fuji
 npm run deploy:fuji
+npm run build
 ```
 
 ## Estructura
