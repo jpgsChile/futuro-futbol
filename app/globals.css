@@ -7,6 +7,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap');
 
 /* ── Reset ────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
@@ -78,6 +79,13 @@
 
   /* Transitions */
   --transition: 0.18s ease;
+
+  /* ── Futurist High-Tech palette (ff-) ──────────────────── */
+  --ff-lime:       #39FF8B;
+  --ff-lime-soft:  rgba(57, 255, 139, 0.16);
+  --ff-blue:       #3D7FFF;
+  --ff-blue-soft:  rgba(61, 127, 255, 0.18);
+  --ff-mono:       "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 /* ── Base ─────────────────────────────────────────────── */
@@ -740,7 +748,8 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 
-.group:hover .nav-dropdown {
+.group:hover .nav-dropdown,
+.group:focus-within .nav-dropdown {
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
@@ -1451,187 +1460,6 @@ hr {
   scroll-margin-top: 110px;
 }
 
-/* HERO CAROUSEL */
-.hero-carousel {
-  width: 100%;
-  display: grid;
-  gap: var(--space-4);
-}
-
-.hero-carousel-stage {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  border-radius: 22px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: radial-gradient(circle at 30% 20%, rgba(59, 91, 219, 0.15), transparent 55%),
-    radial-gradient(circle at 70% 80%, rgba(232, 65, 66, 0.2), transparent 60%),
-    rgba(8, 12, 24, 0.8);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
-  perspective: 1200px;
-}
-
-.hero-carousel-slide {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transform: translateX(6%) scale(0.92) rotateY(6deg);
-  transform-style: preserve-3d;
-  transition: opacity 0.6s ease, transform 0.6s ease;
-  display: grid;
-  align-items: center;
-}
-
-.hero-carousel-slide.is-active {
-  opacity: 1;
-  transform: translateX(0) scale(1) rotateY(-1deg);
-  z-index: 3;
-}
-
-.hero-carousel-slide.is-prev {
-  opacity: 0.35;
-  transform: translateX(-14%) scale(0.88) rotateY(-10deg);
-  z-index: 2;
-}
-
-.hero-carousel-slide.is-next {
-  opacity: 0.45;
-  transform: translateX(14%) scale(0.9) rotateY(10deg);
-  z-index: 2;
-}
-
-.hero-carousel-slide.is-hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.hero-carousel-media {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 20px;
-  filter: saturate(1.05);
-}
-
-.hero-carousel-overlay {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(120deg, rgba(0, 0, 0, 0.35) 0%, transparent 55%),
-    linear-gradient(0deg, rgba(6, 8, 16, 0.8) 0%, rgba(6, 8, 16, 0.1) 55%, transparent 100%);
-}
-
-.hero-carousel-caption {
-  position: absolute;
-  left: var(--space-4);
-  bottom: var(--space-4);
-  display: grid;
-  gap: 6px;
-  z-index: 2;
-}
-
-.hero-carousel-tag {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
-  background: rgba(232, 65, 66, 0.2);
-  border: 1px solid rgba(232, 65, 66, 0.5);
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.hero-carousel-caption strong {
-  font-size: 16px;
-  letter-spacing: 0.03em;
-}
-
-.hero-carousel-controls {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 var(--space-3);
-  pointer-events: none;
-  z-index: 3;
-}
-
-.hero-carousel-btn {
-  pointer-events: auto;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(12, 16, 30, 0.7);
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-}
-
-.hero-carousel-btn:hover {
-  transform: scale(1.05);
-  border-color: rgba(255, 255, 255, 0.4);
-  background: rgba(232, 65, 66, 0.25);
-}
-
-.hero-carousel-dots {
-  display: flex;
-  gap: var(--space-2);
-  justify-content: center;
-}
-
-.hero-carousel-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.hero-carousel-dot.is-active {
-  background: var(--color-accent);
-  transform: scale(1.2);
-}
-
-@media (max-width: 980px) {
-  .hero-carousel-stage {
-    aspect-ratio: 16 / 10;
-  }
-}
-
-@keyframes heroFloat {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0); }
-}
-
-.hero-carousel-slide.is-active .hero-carousel-media {
-  animation: heroFloat 6s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-carousel-slide,
-  .hero-carousel-btn,
-  .hero-carousel-dot {
-    transition: none;
-  }
-
-  .hero-carousel-slide.is-active .hero-carousel-media {
-    animation: none;
-  }
-}
-
-
-
 /* ── Profile Selector ────────────────────────────────────
    Contenedor del selector + bloque de conexión.
    Sin card anidada — fondo limpio.                         */
@@ -2009,6 +1837,21 @@ hr {
   color: var(--entity-accent-text, var(--color-brand));
   text-transform: uppercase;
   letter-spacing: 0.07em;
+}
+
+/* Skeleton de carga (SSR→client) */
+.profile-card-skeleton {
+  min-height: 160px;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.03) 0%,
+    rgba(255,255,255,0.07) 50%,
+    rgba(255,255,255,0.03) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease infinite;
+  cursor: default;
+  pointer-events: none;
 }
 
 /* ── Connect block ────────────────────────────────────────
@@ -2393,8 +2236,9 @@ hr {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: clamp(32px, 5vw, 72px);
-  padding: clamp(20px, 3vw, 32px) 12px var(--space-12);
+  gap: clamp(24px, 4vw, 56px);
+  /* padding-top reducido para acercar el contenido al navbar */
+  padding: clamp(12px, 1.5vw, 24px) clamp(12px, 2vw, 24px) var(--space-12);
 }
 
 .home-eyebrow,
@@ -2477,9 +2321,32 @@ hr {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  /* Mobile-first: una sola columna por defecto, media arriba, copy abajo.
+     El orden DOM coloca copy primero, así que ponemos media en la primera
+     fila con `order: -1` (más abajo) para que el carousel sea la "lámina"
+     dominante en narrow y el copy quede como contenido editorial. */
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(20px, 2.8vw, 40px);
-  align-items: stretch;
+  align-items: start;
+  min-height: 0;
+  width: 100%;
+}
+
+/* Tablet ancho / laptop: mantenemos 1 columna pero centramos o ajustamos */
+@media (min-width: 1081px) {
+  .home-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+  }
+}
+
+/* Desktop ancho: lock en 1480px máx, 1 columna */
+@media (min-width: 1600px) {
+  .home-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 1480px;
+    margin-inline: auto;
+  }
 }
 
 .home-kicker-row {
@@ -2522,17 +2389,29 @@ hr {
   z-index: 1;
   display: grid;
   gap: clamp(16px, 2.2vw, 24px);
+  /* En grid, min-width:0 permite que la columna se contraiga correctamente
+     sin que palabras largas la fuercen a desbordarse hacia el lado del media. */
+  min-width: 0;
 }
 
 .home-headline {
   margin: 0;
   font-family: var(--font-home-display);
-  font-size: clamp(3.2rem, 7vw, 6rem);
-  line-height: 0.92;
+  /* Tamaño recortado: clamp ajustado para que "OPERACION" (9 caracteres
+     uppercase) quepa en una sola línea desde 720px hacia arriba. El techo
+     a 3.6rem (~58px) cabe en columnas de ~440px en 2-cols a 1080px+. */
+  font-size: clamp(2.2rem, 3.6vw, 3.6rem);
+  line-height: 0.98;
   color: #f7fbff;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.03em;
   background: none;
   -webkit-text-fill-color: initial;
+  /* `normal`/`break-word` evita la fragmentación letra-por-letra que
+     producía `anywhere` cuando la columna era estrecha; `hyphens: manual`
+     desactiva los guiones automáticos del navegador. */
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: manual;
 }
 
 .home-headline-display {
@@ -2657,6 +2536,7 @@ hr {
   position: relative;
   z-index: 1;
   display: block;
+  order: -1; /* Forzar el carrusel arriba en todos los tamaños */
 }
 
 .home-hero-band {
@@ -2858,16 +2738,20 @@ hr {
 
 .showcase-carousel-stage {
   position: relative;
-  min-height: clamp(420px, 36vw, 620px);
+  /* Usamos un height dinamico con limite en vh para asegurar que el contenido
+     inferior (panel) sea visible without scrolling "above the fold". */
+  height: clamp(320px, 45vh, 480px);
   border-radius: 30px;
   overflow: hidden;
+  /* contain refuerza el clipping de los slides absolutos en navegadores
+     que ignoran overflow:hidden con transform 3D en compositor. */
+  contain: layout paint;
   border: 1px solid var(--home-border-strong);
   background:
     radial-gradient(circle at 20% 20%, rgba(29, 214, 255, 0.18), transparent 26%),
     radial-gradient(circle at 82% 18%, rgba(127, 243, 207, 0.12), transparent 22%),
     linear-gradient(180deg, rgba(5, 9, 19, 0.82) 0%, rgba(3, 6, 15, 0.96) 100%);
   box-shadow: 0 32px 70px rgba(0, 0, 0, 0.42);
-  aspect-ratio: 16 / 11;
 }
 
 .showcase-carousel-stage::before,
@@ -2896,30 +2780,50 @@ hr {
   position: absolute;
   inset: 0;
   opacity: 0;
+  /* will-change + contain delimita el slide a su caja: previene que las
+     transformaciones translate3d empujen el flujo del padre cuando el
+     viewport supera 1920px. */
   transform: translate3d(6%, 0, 0) scale(1.03);
+  transform-origin: 50% 50%;
   transition:
     opacity 0.65s ease-out,
     transform 0.65s ease-out;
   display: block;
+  z-index: 1;
+  contain: layout paint;
+  pointer-events: none;
 }
 
 .showcase-carousel-slide.is-active {
   opacity: 1;
   transform: translate3d(0, 0, 0) scale(1);
-  z-index: 2;
+  z-index: 3;
+  pointer-events: auto;
 }
 
 .showcase-carousel-slide.is-before {
-  transform: translate3d(-5%, 0, 0) scale(1.02);
+  /* Reducido a ±3% (antes 5%): la magnitud anterior, multiplicada por la
+     escala 1.02, desbordaba la caja en monitores ≥1920px aunque el stage
+     tenga overflow:hidden, generando glitches durante la transición. */
+  transform: translate3d(-3%, 0, 0) scale(1.02);
+  z-index: 2;
 }
 
 .showcase-carousel-slide.is-after {
-  transform: translate3d(5%, 0, 0) scale(1.02);
+  transform: translate3d(3%, 0, 0) scale(1.02);
+  z-index: 2;
 }
 
 .showcase-carousel-media {
+  /* Capa BASE explícita del slide: position absolute + inset 0 fija sus
+     bordes a la caja del slide, z-index 0 garantiza que pinta primero
+     (antes que .showcase-carousel-overlay z:1, .showcase-carousel-panel
+     z:5 y .showcase-carousel-stat z:5). */
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+  z-index: 0;
   object-fit: cover;
   filter: saturate(1.08) contrast(1.02);
   border-radius: 0;
@@ -2928,6 +2832,11 @@ hr {
 .showcase-carousel-overlay {
   position: absolute;
   inset: 0;
+  /* z-index explícito: por encima del media (img/video) y debajo del panel
+     y el stat (z-index 5). Evita colisión Z con el media en navegadores que
+     promueven capas asincrónicamente bajo will-change/scale. */
+  z-index: 1;
+  pointer-events: none;
   background:
     linear-gradient(180deg, rgba(3, 7, 16, 0.08) 0%, rgba(3, 8, 20, 0.66) 100%),
     linear-gradient(90deg, rgba(3, 8, 20, 0.75) 0%, rgba(3, 8, 20, 0.14) 48%, rgba(3, 8, 20, 0.78) 100%);
@@ -2947,6 +2856,7 @@ hr {
   left: clamp(16px, 2vw, 24px);
   right: clamp(16px, 2vw, 24px);
   bottom: clamp(18px, 2vw, 24px);
+  margin-inline: auto; /* Centrar el panel horizontalmente */
   z-index: 5;
   display: grid;
   gap: 10px;
@@ -3051,13 +2961,28 @@ hr {
 }
 
 .showcase-carousel-preview-rail {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  display: flex;
+  overflow-x: auto;
   gap: 12px;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.showcase-carousel-preview-rail::-webkit-scrollbar {
+  height: 6px;
+}
+
+.showcase-carousel-preview-rail::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
 }
 
 .showcase-carousel-preview {
   position: relative;
+  flex: 1 0 auto;
+  min-width: 160px;
+  max-width: 240px;
   min-height: 108px;
   padding: 14px;
   border-radius: 22px;
@@ -3217,11 +3142,10 @@ hr {
   animation: heroFloat 6.5s ease-in-out infinite;
 }
 
-@media (max-width: 1240px) {
-  .home-hero-grid {
-    grid-template-columns: 1fr;
-  }
-
+/* Por debajo de 1081px (donde se activan las 2 columnas en .home-hero-grid)
+   el carousel sube y la copy baja, para que la pieza dominante sea visual y
+   no editorial en pantallas medianas/pequeñas. */
+@media (max-width: 1080px) {
   .home-hero-media {
     order: -1;
   }
@@ -3236,6 +3160,17 @@ hr {
 
   .home-status {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Tablet / laptop estrechos: tres notes en una sola fila se sienten apretados.
+   Cambiamos a 2 columnas + 1 abajo para evitar líneas con 1 sola palabra. */
+@media (max-width: 1080px) and (min-width: 721px) {
+  .home-hero-notes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .home-hero-note:nth-child(3) {
+    grid-column: 1 / -1;
   }
 }
 
@@ -3324,5 +3259,400 @@ hr {
   .showcase-carousel-slide.is-active .showcase-carousel-media {
     animation: none;
     transform: none;
+  }
+}
+
+/* =========================================================
+   FUTURIST HIGH-TECH — ff- component system
+   Palette: #39FF8B (lime) · #3D7FFF (blue) · JetBrains Mono
+   ========================================================= */
+
+/* ── Keyframes ─────────────────────────────────────────── */
+@keyframes ff-spin    { to { transform: rotate(360deg); } }
+@keyframes ff-pulse   { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+@keyframes ff-fade-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes ff-cursor-ping {
+  0%   { box-shadow: 0 0 0 0   rgba(57, 255, 139, 0.6); }
+  100% { box-shadow: 0 0 0 14px rgba(57, 255, 139, 0); }
+}
+@keyframes ff-orbit-pulse {
+  0%, 100% { transform: scale(1);    border-color: rgba(255, 255, 255, 0.06); }
+  50%       { transform: scale(1.04); border-color: var(--accent, var(--ff-lime)); }
+}
+
+/* ── HUD Chips ─────────────────────────────────────────── */
+.ff-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid rgba(138, 149, 180, 0.15);
+  background: rgba(8, 12, 24, 0.6);
+  color: var(--color-text-dim);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.ff-chip-lime { color: var(--ff-lime); border-color: rgba(57, 255, 139, 0.35); background: rgba(57, 255, 139, 0.06); }
+.ff-chip-cyan { color: #5EEAFF; border-color: rgba(94, 234, 255, 0.3); background: rgba(94, 234, 255, 0.06); }
+.ff-chip-blue { color: var(--ff-blue); border-color: rgba(61, 127, 255, 0.35); }
+.ff-chip-dim  { color: var(--color-text-dim); }
+.ff-chip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+  animation: ff-pulse 2s ease infinite;
+}
+
+/* ── HUD Bar ───────────────────────────────────────────── */
+.ff-hero-hud-top {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px 16px;
+  flex-wrap: wrap;
+  grid-column: 1 / -1; /* span all columns of .home-hero grid */
+  /* Carriles laterales: los .ff-corner viven en top/right/left = 16px con
+     28px de ancho, así que reservamos ~52px de inset para que los chips no
+     queden bajo los brackets cuando el flex wrappea en pantallas anchas. */
+  padding-inline: clamp(36px, 4vw, 64px);
+  /* Margen inferior para separar del headline; respira frente al navbar
+     sticky superior. */
+  margin-bottom: clamp(12px, 2vw, 24px);
+}
+.ff-hud-cluster {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  /* Cada cluster no se estira más allá de su mitad; evita que un wrap
+     desbalancee y solape al cluster opuesto en >1920px. */
+  max-width: 50%;
+  min-width: 0;
+}
+.ff-hud-cluster:last-child { justify-content: flex-end; }
+
+/* En pantallas pequeñas, los chips del HUD se apilan en lugar de truncarse. */
+@media (max-width: 540px) {
+  .ff-hero-hud-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+.ff-hud-time {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  color: var(--color-text-dim);
+  letter-spacing: 0.16em;
+}
+
+/* ── Hero Canvas ───────────────────────────────────────── */
+.ff-hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* Defensa adicional: el buffer interno del canvas (canvas.width/height en
+     JS) se calcula desde getBoundingClientRect(); estos topes garantizan
+     que el elemento NUNCA exceda la caja del padre, aunque el navegador
+     reporte un boundingRect raro durante un resize transitorio. */
+  max-width: 100%;
+  max-height: 100%;
+  z-index: -1; /* negativo dentro del isolation: isolate de home-hero */
+  opacity: 0.85;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.ff-hero-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse 50% 60% at 50% 60%, transparent, rgba(5, 7, 13, 0.65) 100%),
+    linear-gradient(to bottom, transparent 60%, var(--color-bg) 100%);
+}
+.ff-hero-scanline {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  border-radius: inherit;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.012) 0px,
+    rgba(255, 255, 255, 0.012) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+/* ── Corner brackets ───────────────────────────────────── */
+.ff-corner {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ff-lime);
+  z-index: 4;
+  opacity: 0.6;
+  pointer-events: none;
+}
+.ff-corner-tl { top: 16px; left: 16px; border-right: 0; border-bottom: 0; }
+.ff-corner-tr { top: 16px; right: 16px; border-left: 0; border-bottom: 0; }
+.ff-corner-bl { bottom: 16px; left: 16px; border-right: 0; border-top: 0; }
+.ff-corner-br { bottom: 16px; right: 16px; border-left: 0; border-top: 0; }
+
+/* ── Glow Button ───────────────────────────────────────── */
+.ff-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-home);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-bg);
+  padding: 0;
+  isolation: isolate;
+  transition: transform 0.18s ease;
+  text-decoration: none;
+}
+.ff-btn:hover { transform: translateY(-2px); }
+.ff-btn.is-pressed { transform: translateY(1px); }
+
+.ff-btn-content {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+}
+.ff-btn-icon  { font-size: 14px; display: inline-block; }
+.ff-btn-arrow { display: inline-block; transition: transform 0.2s ease; }
+.ff-btn:hover .ff-btn-arrow { transform: translateX(4px); }
+
+.ff-btn-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  z-index: 0;
+}
+.ff-btn-rim {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  z-index: 1;
+  pointer-events: none;
+}
+.ff-btn-glow {
+  position: absolute;
+  inset: -8px;
+  border-radius: 12px;
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(20px);
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+.ff-btn:hover .ff-btn-glow { opacity: 1; }
+
+/* primary: solid lime */
+.ff-btn-primary .ff-btn-bg  { background: linear-gradient(135deg, #4FFF9D 0%, #28E078 100%); }
+.ff-btn-primary .ff-btn-rim { border: 1px solid rgba(255,255,255,0.4); box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), inset 0 -1px 0 rgba(0,60,24,0.4); }
+.ff-btn-primary .ff-btn-glow { background: radial-gradient(ellipse, var(--ff-lime), transparent 70%); }
+
+/* ghost: electric blue border + glow */
+.ff-btn-ghost { color: var(--color-text); }
+.ff-btn-ghost .ff-btn-bg  { background: rgba(8,12,24,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.ff-btn-ghost .ff-btn-rim { border: 1px solid var(--ff-blue); box-shadow: inset 0 0 0 1px rgba(61,127,255,0.2), inset 0 1px 0 rgba(255,255,255,0.08); }
+.ff-btn-ghost .ff-btn-glow { background: radial-gradient(ellipse, var(--ff-blue), transparent 70%); opacity: 0.4; }
+.ff-btn-ghost:hover .ff-btn-glow { opacity: 0.9; }
+
+/* ── Navbar spinning logo ───────────────────────────────── */
+.navbar-logo {
+  width: 34px;
+  height: 34px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.navbar-logo-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--ff-lime);
+  box-shadow: 0 0 10px rgba(57, 255, 139, 0.45), inset 0 0 6px rgba(57, 255, 139, 0.25);
+  animation: ff-spin 10s linear infinite;
+}
+.navbar-logo-ring::before,
+.navbar-logo-ring::after {
+  content: "";
+  position: absolute;
+  background: var(--ff-lime);
+  border-radius: 50%;
+}
+.navbar-logo-ring::before { width: 4px; height: 4px; top: -2px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 6px var(--ff-lime); }
+.navbar-logo-ring::after  { width: 3px; height: 3px; bottom: 0;  right: 3px; }
+.navbar-logo-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ff-lime);
+  box-shadow: 0 0 14px var(--ff-lime);
+}
+
+/* ── Card 3D tilt + rim light (profile cards) ──────────── */
+.profile-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition:
+    border-color 0.35s ease,
+    background   0.35s ease,
+    transform    0.45s cubic-bezier(0.22, 0.8, 0.3, 1),
+    box-shadow   0.35s ease;
+}
+.profile-card.is-hover {
+  transition:
+    border-color 0.35s ease,
+    background   0.35s ease,
+    transform    0.08s linear,
+    box-shadow   0.3s ease;
+}
+
+/* Rim light: conic gradient ring following --mx/--my cursor position */
+.ff-card-rim {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from calc(var(--mx, 50%) * 3.6deg) at var(--mx, 50%) var(--my, 50%),
+    transparent 0deg,
+    var(--accent, var(--ff-lime)) 60deg,
+    rgba(255, 255, 255, 0.5) 90deg,
+    var(--accent, var(--ff-lime)) 120deg,
+    transparent 180deg,
+    rgba(138, 149, 180, 0.15) 270deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.profile-card.is-hover .ff-card-rim { opacity: 1; }
+
+/* Spotlight that tracks cursor */
+.ff-card-spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    var(--accent, var(--ff-lime)) 0%,
+    transparent 35%
+  );
+  opacity: 0;
+  mix-blend-mode: screen;
+  transition: opacity 0.35s ease;
+}
+.profile-card.is-hover .ff-card-spotlight { opacity: 0.14; }
+
+/* Wallet dot in navbar */
+.ff-nav-wallet-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ff-lime);
+  box-shadow: 0 0 8px var(--ff-lime);
+  animation: ff-pulse 2s ease infinite;
+  flex-shrink: 0;
+}
+
+/* ── Layout + stacking fix ─────────────────────────────── */
+/*
+ * isolation: isolate → crea stacking context propio para home-hero.
+ * Sin esto, el canvas (position:absolute) compite en el stacking context
+ * del root y puede quedar encima del contenido en desktop.
+ * Con isolation, z-index:-1 del canvas queda DENTRO del contexto de
+ * home-hero: encima de su background, debajo de todos sus hijos.
+ *
+ * grid-template-columns: 1fr → sobreescribe la regla v3 de 2 columnas
+ * (minmax(0,1.1fr) minmax(0,0.9fr)) para que home-hero apile en 1 col.
+ */
+.home-hero {
+  isolation: isolate;
+  grid-template-columns: 1fr;
+  /* Single Page View en desktop: el hero respira todo el viewport menos
+     el navbar sticky (60px) sin forzar scroll vertical. En tablet/móvil
+     dejamos el flujo natural para no comprimir copy crítica. */
+  align-content: start;
+}
+
+@media (min-width: 1280px) {
+  .home-hero {
+    /* Sólo min-height: deja que el contenido respire si su altura natural
+       supera el viewport (notes + signal band + headline grande), pero
+       cubre toda la pantalla cuando sobra espacio. NO usar max-height +
+       overflow:hidden aquí: recortaría las cards de la signal band. */
+    min-height: calc(100vh - 80px);
+  }
+}
+
+.home-hero-grid,
+.home-hero-band {
+  grid-column: 1 / -1;
+  position: relative;
+  z-index: 1;
+}
+
+/* Headline y columna de copy: evitar desbordamiento en desktop.
+   No usamos overflow:hidden porque corta focus-rings, sombras del CTA y
+   tooltips del HUD; min-width:0 ya basta para grid items. */
+.home-hero-copy {
+  min-width: 0;
+}
+.home-hero-media {
+  min-width: 0;
+}
+.home-headline-display {
+  font-size: clamp(2.2rem, 3.6vw, 3.6rem);
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: manual;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ff-btn,
+  .profile-card,
+  .navbar-logo-ring {
+    transition: none;
+    animation: none;
+  }
+  .ff-chip-dot,
+  .ff-nav-wallet-dot {
+    animation: none;
   }
 }

@@ -1,10 +1,22 @@
 import dynamic from "next/dynamic";
 import QuickChecks from "@/components/QuickChecks";
 import HeroCarousel from "@/components/HeroCarousel";
+import HeroCanvas from "@/components/HeroCanvas";
+import HUDBar from "@/components/HUDBar";
+import GlowButton from "@/components/GlowButton";
 
 const ProfileSelector = dynamic(
   () => import("@/components/ProfileSelector"),
-  { ssr: false }
+  {
+    ssr: false,
+    loading: () => (
+      <div className="profile-grid" aria-hidden="true">
+        {[0, 1, 2].map((i) => (
+          <div key={i} className="profile-card profile-card-skeleton" />
+        ))}
+      </div>
+    ),
+  }
 );
 
 const HERO_NOTES = [
@@ -80,6 +92,22 @@ export default function HomePage() {
   return (
     <main className="home-page">
       <section className="home-hero" aria-labelledby="home-hero-title">
+
+        {/* Canvas de partículas */}
+        <HeroCanvas />
+        {/* Vignette + scanlines decorativos */}
+        <div className="ff-hero-vignette" aria-hidden="true" />
+        <div className="ff-hero-scanline" aria-hidden="true" />
+
+        {/* HUD top bar con clock UTC en vivo */}
+        <HUDBar />
+
+        {/* Corner brackets */}
+        <span className="ff-corner ff-corner-tl" aria-hidden="true" />
+        <span className="ff-corner ff-corner-tr" aria-hidden="true" />
+        <span className="ff-corner ff-corner-bl" aria-hidden="true" />
+        <span className="ff-corner ff-corner-br" aria-hidden="true" />
+
         <div className="home-hero-grid">
           <div className="home-hero-copy">
             <div className="home-kicker-row">
@@ -105,12 +133,12 @@ export default function HomePage() {
             </p>
 
             <div className="home-hero-actions">
-              <a className="home-cta home-cta-primary" href="#roles">
+              <GlowButton variant="primary" icon="◈" href="#roles">
                 Elegir superficie
-              </a>
-              <a className="home-cta home-cta-secondary" href="#estado">
+              </GlowButton>
+              <GlowButton variant="ghost" icon="⌬" href="#estado">
                 Ver control operativo
-              </a>
+              </GlowButton>
             </div>
 
             <div className="home-hero-notes">

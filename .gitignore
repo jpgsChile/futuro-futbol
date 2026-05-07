@@ -11,3 +11,10 @@ cache
 hardhat-cache
 broadcast
 **/.DS_Store
+
+# Archivos locales y de agentes
+*.md
+!README.md
+ERROR.png
+.claude/
+*local*
