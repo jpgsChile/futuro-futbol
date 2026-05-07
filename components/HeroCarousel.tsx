@@ -38,7 +38,7 @@ const SLIDES: Slide[] = [
   {
     id: "hero-video-02",
     type: "video",
-    src: "/hero/hero-loop-02.mp4",
+    src: "/hero/hero-loop-01.mp4",
     poster: "/hero/hero-loop-poster.svg",
     fallbackSrc: "/hero/hero-3d-02.svg",
     alt: "Clip de jugada intensa con iluminacion de estadio",
@@ -53,8 +53,10 @@ const SLIDES: Slide[] = [
   },
   {
     id: "hero-3d-1",
-    type: "image",
-    src: "/hero/hero-3d-01.svg",
+    type: "video",
+    src: "/hero/hero-loop-01.mp4",
+    poster: "/hero/hero-loop-poster.svg",
+    fallbackSrc: "/hero/hero-3d-01.svg",
     alt: "Balon 3D flotando en un estadio iluminado",
     tag: "Identity layer",
     eyebrow: "Entity graph",
@@ -67,8 +69,10 @@ const SLIDES: Slide[] = [
   },
   {
     id: "hero-3d-2",
-    type: "image",
-    src: "/hero/hero-3d-02.svg",
+    type: "video",
+    src: "/hero/hero-loop-01.mp4",
+    poster: "/hero/hero-loop-poster.svg",
+    fallbackSrc: "/hero/hero-3d-02.svg",
     alt: "Balon 3D con luces de estadio y grilla",
     tag: "Proof trail",
     eyebrow: "Data credibility",
@@ -81,8 +85,10 @@ const SLIDES: Slide[] = [
   },
   {
     id: "hero-3d-3",
-    type: "image",
-    src: "/hero/hero-3d-03.svg",
+    type: "video",
+    src: "/hero/hero-loop-01.mp4",
+    poster: "/hero/hero-loop-poster.svg",
+    fallbackSrc: "/hero/hero-3d-03.svg",
     alt: "Balon 3D con energia y trazos dinamicos",
     tag: "Execution tone",
     eyebrow: "Premium rhythm",
@@ -250,35 +256,6 @@ export default function HeroCarousel() {
               )}
 
               <div className="showcase-carousel-overlay" aria-hidden="true" />
-
-              <div className="showcase-carousel-panel">
-                <div className="showcase-carousel-panel-top">
-                  <span className="showcase-carousel-tag">{slide.tag}</span>
-                  <span className="showcase-carousel-inline-counter">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
-
-                <span className="showcase-carousel-eyebrow">{slide.eyebrow}</span>
-                <h3>{slide.title}</h3>
-                <p>{slide.description}</p>
-
-                <div className="showcase-carousel-chip-row">
-                  {slide.chips.map((chip) => (
-                    <span
-                      className="showcase-carousel-chip"
-                      key={`${slide.id}-${chip}`}
-                    >
-                      {chip}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="showcase-carousel-stat">
-                <span>{slide.metricLabel}</span>
-                <strong>{slide.metricValue}</strong>
-              </div>
             </article>
           );
         })}
