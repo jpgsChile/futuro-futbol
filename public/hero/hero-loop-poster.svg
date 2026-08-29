@@ -1,0 +1,35 @@
+<svg width="1400" height="900" viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bgp" cx="50%" cy="25%" r="85%">
+      <stop offset="0%" stop-color="#23345f"/>
+      <stop offset="55%" stop-color="#0c1328"/>
+      <stop offset="100%" stop-color="#06080f"/>
+    </radialGradient>
+    <radialGradient id="ballp" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="45%" stop-color="#e7ecf6"/>
+      <stop offset="70%" stop-color="#c1c8d8"/>
+      <stop offset="100%" stop-color="#7a8498"/>
+    </radialGradient>
+    <radialGradient id="shinep" cx="30%" cy="25%" r="35%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="70%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1400" height="900" fill="url(#bgp)"/>
+
+  <circle cx="700" cy="420" r="240" fill="url(#ballp)"/>
+  <circle cx="660" cy="380" r="120" fill="url(#shinep)"/>
+
+  <g fill="none" stroke="#5a667e" stroke-width="10" opacity="0.6">
+    <path d="M700 190 C560 250 480 340 470 420 C460 500 510 610 600 680"/>
+    <path d="M860 280 C940 360 960 470 920 580 C880 690 780 760 680 780"/>
+    <path d="M520 310 C620 290 790 300 900 360"/>
+  </g>
+
+  <g opacity="0.75">
+    <circle cx="700" cy="420" r="68" fill="rgba(12, 16, 30, 0.6)" stroke="#ffffff" stroke-opacity="0.3" stroke-width="2"/>
+    <path d="M685 390 L740 420 L685 450 Z" fill="#ffffff"/>
+  </g>
+</svg>

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Futuro Fútbol — Hi-Fi Components</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  html, body { margin: 0; background: #05070D; color: #E8EDFB; min-height: 100%; }
+  body { font-family: "Space Grotesk", system-ui, sans-serif; }
+
+  /* Canvas chrome wrapper */
+  .dc-note {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px;
+    color: #8A95B4;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border: 1px dashed rgba(138, 149, 180, 0.2);
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(8, 12, 24, 0.5);
+  }
+  .dc-note::before {
+    content: "";
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #39FF8B;
+    box-shadow: 0 0 8px #39FF8B;
+  }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="components.jsx"></script>
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+function App() {
+  return (
+    <DesignCanvas
+      title="Futuro Fútbol — Futurist High-Tech"
+      subtitle="Deep navy + neon green/electric blue · Sora + Space Grotesk + JetBrains Mono · Glassmorphism with rim light"
+    >
+      <DCSection
+        id="full"
+        title="Full prototype"
+        description="La página ensamblada — nav, hero animado, carousel y demo hover. Pasá el cursor por las cartas para ver el tilt 3D + rim light siguiendo el cursor."
+      >
+        <DCArtboard id="full-page" label="01 · Página completa" width={1440} height={2400}>
+          <FuturoFutbolPage />
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="hero"
+        title="Hero Section"
+        description="Canvas con red de partículas + grid en perspectiva (motion sutil), título mixto con gradiente lime→blue, botón Mint con glow externo (filter: blur) y botón Connect ghost con borde azul eléctrico. HUD top con clock UTC en vivo."
+      >
+        <DCArtboard id="hero-only" label="Hero · 1440×800" width={1440} height={800}>
+          <div className="ff-prototype">
+            <HeroSection />
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="carousel"
+        title="Hero Carousel"
+        description="5 tarjetas glassmorphism con rim light cónico (conic-gradient + mask-composite). Tarjeta activa al 100% — laterales con scale .86 + blur 2px. Click en cualquier card o uso de las flechas para reposicionar el rail."
+      >
+        <DCArtboard id="carousel-only" label="Carousel · 1440×900" width={1440} height={900}>
+          <div className="ff-prototype">
+            <PlayerCarousel />
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="hover"
+        title="Visual Feedback · Hover 3D + Neon"
+        description="Mover el cursor sobre la tarjeta: rotación X/Y hasta 14°, spotlight radial siguiendo el cursor (mix-blend: screen), rim cónico que rota con la posición y drop-shadow neón ampliado. La órbita interna pulsa cuando hay hover."
+      >
+        <DCArtboard id="hover-demo" label="Hover demo · 1440×720" width={1440} height={720}>
+          <div className="ff-prototype">
+            <HoverShowcase />
+          </div>
+        </DCArtboard>
+
+        <DCArtboard id="card-states" label="Estados · idle · hover · active" width={1200} height={620}>
+          <div className="ff-prototype" style={{padding: '60px 40px', display: 'flex', gap: 40, justifyContent: 'center', alignItems: 'center', height: '100%'}}>
+            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16}}>
+              <PlayerCard player={{...PLAYERS[0], id: 'idle'}} />
+              <span className="dc-note">IDLE</span>
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16}}>
+              <ForceHoverCard />
+              <span className="dc-note">HOVER (forced)</span>
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16}}>
+              <PlayerCard player={{...PLAYERS[1], id: 'alt'}} />
+              <span className="dc-note">VARIANT · BLUE</span>
+            </div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="atoms"
+        title="Atomic components"
+        description="Botones con glow y chips HUD aislados — listos para extraer a /components/atoms."
+      >
+        <DCArtboard id="buttons" label="Buttons · primary + ghost" width={900} height={300}>
+          <div className="ff-prototype" style={{padding: 60, display: 'flex', gap: 30, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
+            <div style={{display: 'flex', gap: 18}}>
+              <GlowButton variant="primary" icon="◈">Mint Identity</GlowButton>
+              <GlowButton variant="ghost" icon="⌬">Connect Wallet</GlowButton>
+            </div>
+            <div style={{display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center'}}>
+              <HUDChip dot color="lime">SYSTEM ONLINE</HUDChip>
+              <HUDChip color="cyan">v2.1.0-alpha</HUDChip>
+              <HUDChip color="blue">CHAIN 43113</HUDChip>
+              <HUDChip color="dim">BLOCK 12,847,332</HUDChip>
+            </div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+// Helper: forced hover state (sets is-hover class for static showcase)
+function ForceHoverCard() {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    if (!ref.current) return;
+    const card = ref.current.querySelector('.ff-card');
+    if (card) {
+      card.classList.add('is-hover');
+      card.style.setProperty('--mx', '70%');
+      card.style.setProperty('--my', '30%');
+      card.style.transform = 'perspective(1100px) rotateX(-6deg) rotateY(8deg)';
+    }
+  }, []);
+  return <div ref={ref}><PlayerCard player={{...PLAYERS[2], id: 'forced'}} /></div>;
+}
+
+// Expose helpers and constants
+window.GlowButton = GlowButton;
+window.HUDChip = HUDChip;
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
