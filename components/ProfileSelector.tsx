@@ -25,9 +25,9 @@ const PROFILES: {
   {
     id: "liga",
     icon: "🏆",
-    label: "Soy Liga",
-    subject: "Liga",
-    desc: "Gestiono ligas, torneos y estructura general.",
+    label: "Organizo una liga",
+    subject: "Organizador",
+    desc: "Crea torneos, gestiona el calendario, registra equipos y controla toda la competencia.",
     entityClass: "entity-league",
     route: "/entidades/crear-liga",
     accent: "#3D7FFF",
@@ -35,9 +35,9 @@ const PROFILES: {
   {
     id: "club",
     icon: "⚽",
-    label: "Soy Club",
-    subject: "Club",
-    desc: "Administro mi equipo, jugadores y operación deportiva.",
+    label: "Dirijo un club",
+    subject: "Director de club",
+    desc: "Administra tu equipo, registra jugadores y lleva el seguimiento de cada partido.",
     entityClass: "entity-club",
     route: "/entidades/crear-club",
     accent: "#39FF8B",
@@ -45,9 +45,9 @@ const PROFILES: {
   {
     id: "jugador",
     icon: "👤",
-    label: "Soy Jugador",
+    label: "Soy jugador",
     subject: "Jugador",
-    desc: "Consulto mi perfil, participación y actividad.",
+    desc: "Consulta tu historial, estadísticas, partidos jugados y actividad en la liga.",
     entityClass: "entity-player",
     route: "/lecturas/jugador",
     accent: "#FFB53D",
@@ -127,15 +127,15 @@ export default function ProfileSelector() {
           {!isConnected ? (
             <>
               <p className="profile-connect-hint">
-                Conectá tu wallet para continuar como{" "}
-                <strong>{selectedProfile?.subject}</strong>
+                Inicia sesión para continuar como{" "}
+                <strong>{selectedProfile?.subject}</strong> y acceder a todas las funciones.
               </p>
               <Connect />
             </>
           ) : (
             <>
               <p className="profile-connect-hint profile-connect-hint-ok">
-                ✓ Wallet conectada — continuando como{" "}
+                ✓ Sesión activa — entrando como{" "}
                 <strong>{selectedProfile?.subject}</strong>
               </p>
               <button

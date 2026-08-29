@@ -21,70 +21,70 @@ const ProfileSelector = dynamic(
 
 const HERO_NOTES = [
   {
-    id: "identity",
+    id: "ligas",
     index: "01",
-    title: "Identidad verificable",
-    body: "Ligas, clubes y jugadores operan sobre permisos trazables y faciles de auditar.",
+    title: "Organiza tu liga",
+    body: "Crea torneos, gestiona calendarios y lleva el control de tu competencia desde un solo lugar.",
   },
   {
-    id: "evidence",
+    id: "clubes",
     index: "02",
-    title: "Evidencia con sello real",
-    body: "Cada partido, evento y attestation queda listo para consulta y prueba operativa.",
+    title: "Gestiona tu club",
+    body: "Registra plantillas, administra jugadores y sigue el rendimiento de cada equipo en tiempo real.",
   },
   {
-    id: "rhythm",
+    id: "jornadas",
     index: "03",
-    title: "Ritmo de jornada",
-    body: "Una misma capa conecta alta de entidades, lectura de estado y ejecucion matchday.",
+    title: "Vive la jornada",
+    body: "Registra resultados y estadísticas al instante. Cada partido, cada gol, siempre disponible.",
   },
 ];
 
 const HERO_SIGNALS = [
   {
-    id: "consensus",
-    label: "Consensus",
-    value: "Avalanche finality",
-    copy: "Confirmacion visible para flujos que no admiten ambiguedad.",
+    id: "ligas",
+    label: "Torneos y ligas",
+    value: "Sin límites",
+    copy: "Desde torneos locales de barrio hasta ligas profesionales con cientos de equipos.",
   },
   {
-    id: "permissions",
-    label: "Permissions",
-    value: "Roles firmados",
-    copy: "Superficies claras para liga, club, jugador y operaciones de partido.",
+    id: "acceso",
+    label: "Disponibilidad",
+    value: "24 / 7",
+    copy: "Accede, registra y consulta resultados en cualquier momento desde cualquier dispositivo.",
   },
   {
-    id: "evidence",
-    label: "Evidence",
-    value: "IPFS + attestations",
-    copy: "Pruebas listas para lectura, validacion y continuidad operativa.",
+    id: "jugadores",
+    label: "Jugadores",
+    value: "Perfil único",
+    copy: "Historial completo de partidos, goles, tarjetas y participación por jugador.",
   },
   {
-    id: "ops",
-    label: "Operations",
-    value: "Matchday ready",
-    copy: "De la wallet a la accion critica sin cambiar de contexto visual.",
+    id: "control",
+    label: "Todo en uno",
+    value: "Una sola app",
+    copy: "Liga, club, jugador y partido unificados. Sin saltar entre apps ni perder datos.",
   },
 ];
 
 const STATUS_STEPS = [
   {
-    id: "wallet",
+    id: "registro",
     index: "01",
-    title: "Valida la wallet antes de operar",
-    body: "El estado de conexion y el rol activo quedan visibles en una sola pieza de control.",
+    title: "Elige tu rol",
+    body: "¿Organizas una liga, administras un club o eres jugador? Cada rol tiene su propio espacio con herramientas pensadas para vos.",
   },
   {
-    id: "role",
+    id: "configura",
     index: "02",
-    title: "Detecta permisos al instante",
-    body: "La lectura on-chain elimina dudas sobre quien puede ejecutar una accion critica.",
+    title: "Configura en minutos",
+    body: "Crea tu liga o club, invita equipos, registra jugadores y arma el calendario de partidos sin complicaciones.",
   },
   {
-    id: "flows",
+    id: "juega",
     index: "03",
-    title: "Activa el flujo correcto",
-    body: "Liga, club y jugador aterrizan en recorridos distintos sin ruido ni pasos sobrantes.",
+    title: "Vive cada jornada",
+    body: "Registra resultados en tiempo real, consulta estadísticas al instante y mantén a toda la liga informada.",
   },
 ];
 
@@ -111,9 +111,9 @@ export default function HomePage() {
         <div className="home-hero-grid">
           <div className="home-hero-copy">
             <div className="home-kicker-row">
-              <span className="home-eyebrow">Web3 matchday infrastructure</span>
+              <span className="home-eyebrow">La plataforma del fútbol que se mueve contigo</span>
               <span className="home-hero-proof">
-                Avalanche / IPFS / roles signed
+                Simple · Potente · Siempre disponible
               </span>
             </div>
 
@@ -121,23 +121,22 @@ export default function HomePage() {
               className="home-headline home-headline-display"
               id="home-hero-title"
             >
-              Operacion premium para
-              <span className="home-headline-accent"> futbol on-chain</span>
+              Tu fútbol merece
+              <span className="home-headline-accent"> la mejor gestión</span>
             </h1>
 
             <p className="home-subline">
-              LigaX convierte ligas, clubes, jugadores y partidos en una capa
-              operativa verificable. Wallet, permisos, evidencia y estado de
-              jornada conviven en una experiencia con escala, control y
-              credibilidad real.
+              LigaX es la plataforma todo-en-uno para organizar ligas, administrar
+              clubes, registrar jugadores y vivir cada jornada al máximo. Fácil
+              para todos, potente para los que lo necesitan.
             </p>
 
             <div className="home-hero-actions">
-              <GlowButton variant="primary" icon="◈" href="#roles">
-                Elegir superficie
+              <GlowButton variant="primary" icon="⚽" href="#roles">
+                Crear mi Liga
               </GlowButton>
-              <GlowButton variant="ghost" icon="⌬" href="#estado">
-                Ver control operativo
+              <GlowButton variant="ghost" icon="▷" href="#como-funciona">
+                Ver cómo funciona
               </GlowButton>
             </div>
 
@@ -172,7 +171,7 @@ export default function HomePage() {
 
       <section
         className="home-status"
-        id="estado"
+        id="como-funciona"
         aria-labelledby="home-status-title"
       >
         <div className="home-status-panel">
@@ -180,14 +179,13 @@ export default function HomePage() {
         </div>
 
         <div className="home-status-info">
-          <span className="home-status-eyebrow">Control room</span>
+          <span className="home-status-eyebrow">Cómo funciona</span>
           <h2 className="home-status-title" id="home-status-title">
-            Una mesa de control lista para decidir en segundos
+            Tres pasos y listo para jugar
           </h2>
           <p className="home-status-subline">
-            Conecta la wallet, valida permisos y aterriza las acciones de liga,
-            club y partido desde una sola superficie con lectura on-chain
-            inmediata.
+            Sin tutoriales interminables ni configuraciones complejas.
+            Regístrate, elige tu rol y empieza a gestionar tu liga en minutos.
           </p>
 
           <div className="home-status-rail">
@@ -205,18 +203,18 @@ export default function HomePage() {
       </section>
 
       <div className="home-divider">
-        <span className="home-divider-label">Rutas operativas</span>
+        <span className="home-divider-label">¿Quién eres en la cancha?</span>
       </div>
 
       <section className="home-action" id="roles" aria-labelledby="roles-title">
         <div className="home-action-intro">
-          <span className="home-action-eyebrow">Entry points</span>
+          <span className="home-action-eyebrow">Elige tu lugar</span>
           <h2 className="home-action-title" id="roles-title">
-            Elegi la superficie correcta para cada rol
+            Encuentra tu lugar en la plataforma
           </h2>
           <p className="home-action-subline">
-            Cada flujo abre permisos, lecturas y acciones concretas para liga,
-            club o jugador sin ruido visual innecesario.
+            Ya seas organizador de liga, director de un club o jugador activo,
+            LigaX tiene un espacio diseñado especialmente para vos.
           </p>
         </div>
 

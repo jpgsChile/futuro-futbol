@@ -129,7 +129,7 @@ export default function Navbar() {
           </span>
           <div className="navbar-brand-name">
             <span>LigaX</span>
-            <span className="navbar-brand-sub">matchday · on-chain</span>
+            <span className="navbar-brand-sub">Fútbol. Organizado.</span>
           </div>
         </Link>
 

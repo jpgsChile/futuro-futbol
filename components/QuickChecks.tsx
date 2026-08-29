@@ -47,7 +47,7 @@ export default function WalletPanel() {
     return (
       <div className="wallet-panel">
         <div className="wallet-panel-header">
-          <span className="wallet-panel-title">Estado de conexión</span>
+          <span className="wallet-panel-title">Tu acceso a LigaX</span>
         </div>
         <div className="wallet-panel-skeleton" aria-hidden="true">
           <div className="skeleton-line" style={{ width: "60%" }} />
@@ -63,29 +63,24 @@ export default function WalletPanel() {
 
       {/* ── Encabezado ──────────────────────────────────── */}
       <div className="wallet-panel-header">
-        <span className="wallet-panel-title">Estado de conexión</span>
-        {/* Indicador de estado global */}
+        <span className="wallet-panel-title">Tu acceso a LigaX</span>
         <span className={`wallet-panel-badge ${isConnected ? "wallet-panel-badge-ok" : "wallet-panel-badge-idle"}`}>
-          {isConnected ? "Conectado" : "Sin conectar"}
+          {isConnected ? "Activo" : "Ingresa para comenzar"}
         </span>
       </div>
 
-      {/* ── Checks de estado on-chain ─────────────────── */}
+      {/* ── Estado del perfil ────────────────────────── */}
       <ul className="wallet-status-list">
         <WalletStatusItem
           ok={isConnected}
-          label={
-            isConnected && address
-              ? `${address.slice(0, 8)}…${address.slice(-5)}`
-              : "Wallet desconectada"
-          }
-          sublabel={isConnected ? "Dirección verificada" : ""}
+          label={isConnected ? "Sesión activa" : "No has iniciado sesión"}
+          sublabel={isConnected && address ? `${address.slice(0, 6)}…${address.slice(-4)}` : ""}
         />
         {isConnected && (
           <WalletStatusItem
             ok={!!hasLeague}
-            label={hasLeague ? "Rol de liga asignado" : "Sin rol de liga"}
-            sublabel={hasLeague ? "Permiso on-chain ✓" : "Requiere asignación"}
+            label={hasLeague ? "Administrador de liga" : "Perfil de participante"}
+            sublabel={hasLeague ? "Acceso completo verificado ✓" : "Contacta al organizador para más permisos"}
           />
         )}
       </ul>
@@ -93,11 +88,11 @@ export default function WalletPanel() {
       {/* ── Divisor ───────────────────────────────────── */}
       <div className="wallet-panel-divider" />
 
-      {/* ── Bloque de conexión embebido ───────────────── */}
+      {/* ── Bloque de acceso ─────────────────────────── */}
       <div className="wallet-panel-connect">
         {!isConnected && (
           <p className="wallet-panel-connect-hint">
-            Conectá tu wallet para acceder a las funciones de LigaX.
+            Inicia sesión para acceder a tu liga, club o perfil de jugador.
           </p>
         )}
         <Connect />
